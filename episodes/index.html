@@ -1,0 +1,14 @@
+---
+layout: default
+title: Episodes
+---
+<div class="eyebrow">The crew's log</div>
+<h1>Episodes</h1>
+{% assign eps = site.episodes | sort: "number" %}
+{% if eps.size > 0 %}
+<ul class="eps">
+{% for e in eps %}<li><a href="{{ e.url | relative_url }}"><span class="n">{{ e.number }}</span><span class="t">{{ e.title }}</span>{% if e.summary %}<span class="s">{{ e.summary }}</span>{% endif %}</a></li>{% endfor %}
+</ul>
+{% else %}
+<p class="empty">No episodes yet. The first one goes up after the first session.</p>
+{% endif %}

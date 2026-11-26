@@ -1,0 +1,12 @@
+title: Of the Waters
+description: A Mothership campaign in the Jump Era, 3249.
+# Episodes live in _episodes/ as Markdown files; each becomes a page under /episodes/.
+collections:
+  episodes:
+    output: true
+    permalink: /episodes/:name/
+defaults:
+  - scope: { path: "", type: episodes }
+    values: { layout: episode }
+exclude: [README.md, _templates, tools]
+markdown: kramdown

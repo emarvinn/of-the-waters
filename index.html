@@ -1,0 +1,24 @@
+---
+layout: default
+---
+<section class="hero">
+  <div class="eyebrow">A Mothership campaign · Jump Era, 3249</div>
+  <h1>Of the Waters</h1>
+  <p class="lede">Four centuries after the Collapse, the jump drive has stitched the old colonies back together. Between the bright stars the lines run fast. Out among the red dwarfs, the campfires are few and far between, and the dark between them goes on forever.</p>
+  <p class="epigraph">Human colonies are tiny lighted bubbles adrift in a vast ocean of empty darkness. Of the waters, we know nothing.</p>
+</section>
+
+<div class="cards">
+  <a class="card" href="{{ '/episodes/' | relative_url }}"><b>Episodes</b><span>The crew's story, session by session.</span></a>
+  <a class="card" href="{{ '/starmap/' | relative_url }}"><b>Starmap</b><span>The jump network in 3D. Explore it, and generate or rework star systems in your own copy.</span></a>
+  <a class="card" href="{{ '/chronology/' | relative_url }}"><b>Chronology</b><span>From the first Sol colonies to 3249.</span></a>
+  <a class="card" href="{{ '/world-classes/' | relative_url }}"><b>World classes</b><span>What the survey terms on the map mean.</span></a>
+</div>
+
+{% assign eps = site.episodes | sort: "number" | reverse %}
+{% if eps.size > 0 %}
+<h2>Latest</h2>
+<ul class="eps">
+{% for e in eps limit: 3 %}<li><a href="{{ e.url | relative_url }}"><span class="n">{{ e.number }}</span><span class="t">{{ e.title }}</span>{% if e.summary %}<span class="s">{{ e.summary }}</span>{% endif %}</a></li>{% endfor %}
+</ul>
+{% endif %}

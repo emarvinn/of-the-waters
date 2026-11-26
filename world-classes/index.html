@@ -1,0 +1,710 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
+<title>World Classification Reference</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* A field reference: index rail on the left, entries as catalogue cards; zone strip shows where each type forms, hot to cold. */
+:root{
+  --bg:#f2f3f1;--surface:#fafaf8;--ink:#14181a;--muted:#5b6469;--line:#d3d8d8;--accent:#a8540f;--hl:#fff1c9;
+  --z-scorch:#d2451e;--z-hot:#e39a3a;--z-hz:#3f9a62;--z-cool:#6c97b4;--z-icy:#b9cde0;--z-off:#e3e6e5;
+  --display:"Chakra Petch","Segoe UI",system-ui,sans-serif;--body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1113;--surface:#151a1c;--ink:#e3e7e7;--muted:#8d979b;--line:#283033;--accent:#f0913f;--hl:#3a2e12;--z-off:#252c2f;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1113;--surface:#151a1c;--ink:#e3e7e7;--muted:#8d979b;--line:#283033;--accent:#f0913f;--hl:#3a2e12;--z-off:#252c2f;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--body)}
+.wrap{max-width:1180px;margin:0 auto;padding-block:28px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;grid-template-columns:230px minmax(0,1fr);gap:32px}
+@media (max-width:820px){.wrap{grid-template-columns:minmax(0,1fr)}nav.rail{position:static!important;max-height:none!important}}
+.eyebrow{font:500 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font:700 clamp(26px,4.5vw,36px)/1.08 var(--display);margin:6px 0 8px;text-wrap:balance}
+.lede{color:var(--muted);max-width:64ch;margin:0}
+nav.rail{position:sticky;top:max(16px,env(safe-area-inset-top,0px));align-self:start;max-height:calc(100vh - 32px);overflow:auto;font:13px/1.35 var(--body);padding-right:6px}
+.search{width:100%;font:14px var(--body);padding:8px 10px;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--ink);margin-bottom:14px}
+.search:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.ng{display:flex;flex-direction:column;margin-bottom:12px}
+.ng a{color:var(--muted);text-decoration:none;padding:2px 0 2px 8px;border-left:2px solid transparent}
+.ng a:hover{color:var(--ink)}
+.ng a.cur{color:var(--ink);border-left-color:var(--accent)}
+.ng a.nh{font:600 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink);padding:6px 0;border:0}
+main{min-width:0;display:flex;flex-direction:column;gap:30px}
+.zones{display:grid;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px}
+.zrow{display:flex;gap:12px;align-items:flex-start}.zrow b{display:block;font:600 13px/1.3 var(--body)}.zrow span{color:var(--muted);font-size:13px}
+.zrow .z{margin-top:4px;flex:none}
+.cls h2{font:700 22px/1.2 var(--display);margin:0 0 4px;letter-spacing:.01em}
+.cnote{color:var(--muted);margin:0 0 14px;max-width:70ch}
+.ty{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin-bottom:10px;scroll-margin-top:16px}
+.ty.hit{background:var(--hl);border-color:var(--accent)}
+.ty header{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px}
+.ty h3{font:600 17px/1.25 var(--display);margin:0;letter-spacing:.01em}
+.src{font:500 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:3px 5px}
+.sum{margin:6px 0 8px;max-width:72ch}
+dl{display:grid;grid-template-columns:96px minmax(0,1fr);gap:4px 12px;margin:0;font-size:13.5px}
+dt{font:500 11px/1.9 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+dd{margin:0}
+.zbar{display:inline-flex;gap:2px;vertical-align:-1px;margin-right:6px}
+.z{display:inline-block;width:14px;height:10px;border-radius:2px;background:var(--z-off)}
+.z.maybe{opacity:.38}.z.maybe.scorch{background:var(--z-scorch)}.z.maybe.hot{background:var(--z-hot)}.z.maybe.hz{background:var(--z-hz)}.z.maybe.cool{background:var(--z-cool)}.z.maybe.icy{background:var(--z-icy)}
+.xw{display:grid;border:1px solid var(--line);border-radius:6px;background:var(--surface);overflow:hidden}.xr{display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:4px 14px;padding:8px 14px;border-top:1px solid var(--line);font-size:14px}.xr:first-child{border-top:0}.xr span:first-child{font-weight:600}.xr a{color:var(--accent);text-decoration:none;margin-right:8px;white-space:nowrap}.xr a:hover{text-decoration:underline}@media (max-width:560px){.xr{grid-template-columns:minmax(0,1fr)}}
+.z.on.scorch{background:var(--z-scorch)}.z.on.hot{background:var(--z-hot)}.z.on.hz{background:var(--z-hz)}.z.on.cool{background:var(--z-cool)}.z.on.icy{background:var(--z-icy)}
+.anc{position:absolute;top:0}
+.none{color:var(--muted);border:1px dashed var(--line);border-radius:6px;padding:16px}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.tm{border-collapse:collapse;width:100%;min-width:640px;font-size:13px}
+.tm th,.tm td{padding:5px 10px;border-top:1px solid var(--line);text-align:left;white-space:nowrap}
+.tm thead th{font:500 11px/1.2 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);border-top:0;position:sticky;top:0;background:var(--surface)}
+.tm tbody th{font-weight:500}.tm tbody th a{color:var(--ink);text-decoration:none}.tm tbody th a:hover{text-decoration:underline}
+.tm tr.grp th{font:600 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:12px;background:var(--bg)}
+.m{color:var(--muted)}.m.on{color:var(--ink)}.m.maybe{color:var(--muted)}.m.to{color:var(--accent);text-decoration:none}.m.to:hover{text-decoration:underline}
+.ev{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin-bottom:10px}
+.ev h3{font:600 16px/1.3 var(--display);margin:0 0 10px}
+.ev ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 0;align-items:stretch}
+.ev li{display:flex;flex-direction:column;gap:2px;padding:6px 22px 6px 10px;position:relative;border-left:2px solid var(--line);max-width:220px}
+.ev li::after{content:"→";position:absolute;right:5px;top:6px;color:var(--muted)}.ev li:last-child::after{content:""}
+.ev li a{font-weight:600;color:var(--ink);text-decoration:none}.ev li a:hover{color:var(--accent)}.ev li span{font-size:12.5px;color:var(--muted);line-height:1.35}
+.ev p{margin:10px 0 0;color:var(--muted);font-size:13.5px;max-width:75ch}
+footer{color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:12px}
+footer a{color:var(--accent)}
+</style>
+<div class="wrap">
+  <nav class="rail" aria-label="Types">
+    <input class="search" id="q" type="search" placeholder="Search 70 entries" aria-label="Search world types">
+    <div class="ng"><a class="nh" href="#class-crosswalk">Survey terms</a><a class="nh" href="#class-transitions">If a world moves</a><a class="nh" href="#class-evolution">How worlds age</a></div><div class="ng"><a class="nh" href="#class-asteroidal">Asteroidal</a><a href="#rocky-s-type" data-n="rocky-s-type">Rocky (S-type)</a><a href="#carbonaceous-c-type" data-n="carbonaceous-c-type">Carbonaceous (C-type)</a><a href="#metallic-m-type" data-n="metallic-m-type">Metallic (M-type)</a><a href="#cometary" data-n="cometary">Cometary</a><a href="#icy-planetoid" data-n="icy-planetoid">Icy planetoid</a></div><div class="ng"><a class="nh" href="#class-terrestrial">Terrestrial</a><a href="#hermian" data-n="hermian">Hermian</a><a href="#ferrinian" data-n="ferrinian">Ferrinian</a><a href="#selenian" data-n="selenian">Selenian</a><a href="#adamaean" data-n="adamaean">Adamaean</a><a href="#cytherean" data-n="cytherean">Cytherean</a><a href="#pelacytherean" data-n="pelacytherean">PelaCytherean</a><a href="#vitriolic" data-n="vitriolic">Vitriolic</a><a href="#hephaestian" data-n="hephaestian">Hephaestian</a><a href="#vesperian" data-n="vesperian">Vesperian</a><a href="#euarean" data-n="euarean">EuArean</a><a href="#eoarean" data-n="eoarean">EoArean</a><a href="#areanlacustric" data-n="areanlacustric">AreanLacustric</a><a href="#areanxeric" data-n="areanxeric">AreanXeric</a><a href="#areantundral" data-n="areantundral">AreanTundral</a><a href="#eogaian" data-n="eogaian">EoGaian</a><a href="#mesogaian" data-n="mesogaian">MesoGaian</a><a href="#eugaian" data-n="eugaian">EuGaian</a><a href="#gaiantundral" data-n="gaiantundral">GaianTundral</a><a href="#campian" data-n="campian">Campian</a><a href="#paludial" data-n="paludial">Paludial</a><a href="#lacustric" data-n="lacustric">Lacustric</a><a href="#xeric" data-n="xeric">Xeric</a><a href="#hyperxeric" data-n="hyperxeric">HyperXeric</a><a href="#pelagic" data-n="pelagic">Pelagic</a><a href="#eupelagic" data-n="eupelagic">EuPelagic</a><a href="#bathypelagic" data-n="bathypelagic">BathyPelagic</a><a href="#tundralpelagic" data-n="tundralpelagic">TundralPelagic</a><a href="#pelagelidic" data-n="pelagelidic">PelaGelidic</a><a href="#chlorogaian" data-n="chlorogaian">Chlorogaian</a><a href="#barogaian" data-n="barogaian">BaroGaian</a><a href="#postgaian" data-n="postgaian">PostGaian</a><a href="#lithicgelidian" data-n="lithicgelidian">LithicGelidian</a><a href="#europan" data-n="europan">Europan</a><a href="#titanian" data-n="titanian">Titanian</a><a href="#ymirian" data-n="ymirian">Ymirian</a><a href="#amunian" data-n="amunian">Amunian</a></div><div class="ng"><a class="nh" href="#class-superterrestrial">Superterrestrial</a><a href="#superhermian" data-n="superhermian">SuperHermian</a><a href="#superferrinian" data-n="superferrinian">SuperFerrinian</a><a href="#supercytherean" data-n="supercytherean">SuperCytherean</a><a href="#superarean" data-n="superarean">SuperArean</a><a href="#supergaian" data-n="supergaian">SuperGaian</a><a href="#pyrothalassic" data-n="pyrothalassic">Pyrothalassic</a><a href="#pyrohydrothalassic" data-n="pyrohydrothalassic">Pyrohydrothalassic</a><a href="#panthalassic" data-n="panthalassic">Panthalassic</a><a href="#supereuropan" data-n="supereuropan">SuperEuropan</a><a href="#superymirian" data-n="superymirian">SuperYmirian</a><a href="#gas-dwarf" data-n="gas-dwarf">Gas dwarf</a><a href="#hycean" data-n="hycean">Hycean</a><a href="#nebulous" data-n="nebulous">Nebulous</a><a href="#super-puff" data-n="super-puff">Super-puff</a></div><div class="ng"><a class="nh" href="#class-jovian">Jovian</a><a href="#frigi" data-n="frigi">Frigi-</a><a href="#cryo" data-n="cryo">Cryo-</a><a href="#psychro" data-n="psychro">Psychro-</a><a href="#meso" data-n="meso">Meso-</a><a href="#zesto" data-n="zesto">Zesto-</a><a href="#pyro" data-n="pyro">Pyro-</a><a href="#cali" data-n="cali">Cali-</a></div><div class="ng"><a class="nh" href="#class-exotic">Exotic</a><a href="#chthonian" data-n="chthonian">Chthonian</a><a href="#hyperbarian" data-n="hyperbarian">HyperBarian</a><a href="#stevensonian" data-n="stevensonian">Stevensonian</a></div><div class="ng"><a class="nh" href="#class-modifiers">Modifiers</a><a href="#skolian" data-n="skolian">Skolian</a><a href="#ikarian" data-n="ikarian">Ikarian</a><a href="#janusian" data-n="janusian">Janusian</a><a href="#promethean" data-n="promethean">Promethean</a><a href="#ixionian" data-n="ixionian">Ixionian</a></div>
+  </nav>
+  <main>
+    <header>
+      <div class="eyebrow">Jump Era · starmap reference</div>
+      <h1>World Classification Reference</h1>
+      <p class="lede">Every world type the system view generates: the Orion's Arm Non-Luminary World Classification Scheme (NoLWoCS), plus the kinds of planet the exoplanet surveys actually find. Each entry gives the survey term for the same kind of world, where in a system it is most likely found (and where else it can turn up), and how often the generator makes it.</p>
+    </header>
+    <div class="zones" aria-label="Zones"><div class="zrow"><i class="z scorch on"></i><div><b>Scorched</b><span>Equilibrium temperature above about 1000 K: rock softens or melts, metals and silicates can be vapour.</span></div></div><div class="zrow"><i class="z hot on"></i><div><b>Hot</b><span>Inside the inner edge of the habitable zone. Water cannot stay liquid at the surface for long; it boils off or drives a runaway greenhouse.</span></div></div><div class="zrow"><i class="z hz on"></i><div><b>Habitable zone</b><span>Where a planet with an Earth-like atmosphere could keep liquid water on its surface. Its inner part runs hot (Cytherean and Xeric types), its outer part cold (Tundral types).</span></div></div><div class="zrow"><i class="z cool on"></i><div><b>Cool</b><span>Between the outer edge of the habitable zone and the snow line. Too cold for surface water, too warm for ices to have been abundant when the world formed.</span></div></div><div class="zrow"><i class="z icy on"></i><div><b>Icy</b><span>Beyond the snow line, where water ice (and further out, ammonia, methane and nitrogen ices) condensed in the planet-forming disc. Bodies here are rich in ice.</span></div></div><div class="zrow"><span class="zbar"><i class="z hz on"></i><i class="z hz maybe"></i><i class="z"></i></span><div><b>Reading the strips</b><span>Solid: where a world of that type is most likely found today. Faint: where one can also turn up after migrating, being scattered or being captured, and still keep its type. Empty: a world moved there would become something else: its atmosphere boiled away, its oceans frozen, its ices lost.</span></div></div></div>
+    <section class="cls" id="class-crosswalk"><h2>Survey terms</h2><p class="cnote">Most NoLWoCS types are finer cuts of the categories exoplanet science uses. This table maps the common survey terms onto the types here.</p><div class="xw" role="table" aria-label="Survey terms and NoLWoCS types"><div class="xr" role="row"><span role="cell">Hot Jupiter / ultra-hot Jupiter</span><span role="cell"><a href="#pyro-jovian">Pyro-Jovian</a> <a href="#cali-jovian">Cali-Jovian</a></span></div><div class="xr" role="row"><span role="cell">Warm Jupiter</span><span role="cell"><a href="#zesto-jovian">Zesto-Jovian</a> <a href="#meso-jovian">Meso-Jovian</a></span></div><div class="xr" role="row"><span role="cell">Cold Jupiter</span><span role="cell"><a href="#psychro-jovian">Psychro-Jovian</a> <a href="#cryo-jovian">Cryo-Jovian</a> <a href="#frigi-jovian">Frigi-Jovian</a></span></div><div class="xr" role="row"><span role="cell">Hot / warm Neptune</span><span role="cell"><a href="#pyro-neptunian">Pyro-Neptunian</a> <a href="#zesto-neptunian">Zesto-Neptunian</a></span></div><div class="xr" role="row"><span role="cell">Ice giant</span><span role="cell"><a href="#cryo-neptunian">Cryo-Neptunian</a> <a href="#psychro-neptunian">Psychro-Neptunian</a></span></div><div class="xr" role="row"><span role="cell">Sub-Neptune (mini-Neptune)</span><span role="cell"><a href="#gas-dwarf">Gas dwarf</a> <a href="#hycean">Hycean</a> <a href="#pyrohydrothalassic">Pyrohydrothalassic</a> <a href="#nebulous">Nebulous</a></span></div><div class="xr" role="row"><span role="cell">Super-puff</span><span role="cell"><a href="#super-puff">Super-puff</a></span></div><div class="xr" role="row"><span role="cell">Super-Earth</span><span role="cell"><a href="#superhermian">SuperHermian</a> <a href="#supercytherean">SuperCytherean</a> <a href="#superarean">SuperArean</a> <a href="#supergaian">SuperGaian</a> <a href="#panthalassic">Panthalassic</a> <a href="#pyrothalassic">Pyrothalassic</a> <a href="#superferrinian">SuperFerrinian</a> <a href="#supereuropan">SuperEuropan</a> <a href="#superymirian">SuperYmirian</a></span></div><div class="xr" role="row"><span role="cell">Lava world</span><span role="cell"><a href="#pyrothalassic">Pyrothalassic</a> <a href="#hephaestian">Hephaestian</a></span></div><div class="xr" role="row"><span role="cell">Water world / ocean planet</span><span role="cell"><a href="#pelagic">Pelagic</a> <a href="#eupelagic">EuPelagic</a> <a href="#bathypelagic">BathyPelagic</a> <a href="#panthalassic">Panthalassic</a> <a href="#hycean">Hycean</a> <a href="#pelagelidic">PelaGelidic</a></span></div><div class="xr" role="row"><span role="cell">Earth analogue</span><span role="cell"><a href="#eugaian">EuGaian</a> <a href="#mesogaian">MesoGaian</a> <a href="#eogaian">EoGaian</a> <a href="#supergaian">SuperGaian</a></span></div><div class="xr" role="row"><span role="cell">Desert planet</span><span role="cell"><a href="#xeric">Xeric</a> <a href="#hyperxeric">HyperXeric</a> <a href="#areanxeric">AreanXeric</a> <a href="#campian">Campian</a></span></div><div class="xr" role="row"><span role="cell">Venus analogue</span><span role="cell"><a href="#cytherean">Cytherean</a> <a href="#supercytherean">SuperCytherean</a> <a href="#vitriolic">Vitriolic</a> <a href="#pelacytherean">PelaCytherean</a></span></div><div class="xr" role="row"><span role="cell">Mars analogue</span><span role="cell"><a href="#euarean">EuArean</a> <a href="#eoarean">EoArean</a> <a href="#areantundral">AreanTundral</a> <a href="#areanxeric">AreanXeric</a> <a href="#areanlacustric">AreanLacustric</a> <a href="#superarean">SuperArean</a></span></div><div class="xr" role="row"><span role="cell">Iron planet / super-Mercury</span><span role="cell"><a href="#ferrinian">Ferrinian</a> <a href="#superferrinian">SuperFerrinian</a> <a href="#hermian">Hermian</a></span></div><div class="xr" role="row"><span role="cell">Carbon planet</span><span role="cell"><a href="#adamaean">Adamaean</a></span></div><div class="xr" role="row"><span role="cell">Tidally locked (&quot;eyeball&quot;) planet</span><span role="cell"><a href="#vesperian">Vesperian</a></span></div><div class="xr" role="row"><span role="cell">Icy ocean moon</span><span role="cell"><a href="#europan">Europan</a> <a href="#supereuropan">SuperEuropan</a></span></div><div class="xr" role="row"><span role="cell">Icy dwarf / Kuiper-belt world</span><span role="cell"><a href="#lithicgelidian">LithicGelidian</a> <a href="#ymirian">Ymirian</a> <a href="#icy-planetoid">Icy planetoid</a></span></div><div class="xr" role="row"><span role="cell">Snowball planet</span><span role="cell"><a href="#gaiantundral">GaianTundral</a> <a href="#tundralpelagic">TundralPelagic</a> <a href="#pelagelidic">PelaGelidic</a> <a href="#areantundral">AreanTundral</a></span></div><div class="xr" role="row"><span role="cell">Chthonian planet</span><span role="cell"><a href="#chthonian">Chthonian</a></span></div><div class="xr" role="row"><span role="cell">Rogue planet</span><span role="cell"><a href="#stevensonian">Stevensonian</a></span></div><div class="xr" role="row"><span role="cell">Eccentric planet</span><span role="cell"><a href="#ikarian">Ikarian</a></span></div><div class="xr" role="row"><span role="cell">High-obliquity planet</span><span role="cell"><a href="#skolian">Skolian</a></span></div></div></section><section class="cls" id="class-asteroidal"><h2>Asteroidal</h2><p class="cnote">Bodies too small to pull themselves round: asteroids, comets and small moons.</p><article class="ty" id="rocky-s-type" data-q="rocky (s-type) asteroidal stony bodies of silicate rock and some nickel-iron, too small to pull themselves round. the common small body of the inner system. grey to reddish rubble piles and shards, cratered, with regolith dust. eros, gaspra, itokawa. s-type (stony) asteroid">
+  <header><h3>Rocky (S-type)</h3><span class="src">Asteroid taxonomy</span></header>
+  <p class="sum">Stony bodies of silicate rock and some nickel-iron, too small to pull themselves round. The common small body of the inner system.</p>
+  <dl>
+    <dt>Science term</dt><dd>S-type (stony) asteroid</dd>
+    <dt>Looks like</dt><dd>Grey to reddish rubble piles and shards, cratered, with regolith dust.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Hot, Habitable zone, Cool. Also possible: Scorched, Icy"><i class="z scorch maybe" title="Scorched: possible"></i><i class="z hot on" title="Hot: most likely"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool on" title="Cool: most likely"></i><i class="z icy maybe" title="Icy: possible"></i></span> hot, habitable zone, cool; also turns up scorched, icy</dd>
+    <dt>How often</dt><dd>common</dd>
+    <dt>Examples</dt><dd>Eros, Gaspra, Itokawa.</dd>
+  </dl>
+</article><article class="ty" id="carbonaceous-c-type" data-q="carbonaceous (c-type) asteroidal dark, primitive bodies rich in carbon compounds and water-bearing clays, largely unchanged since the system formed. very dark (albedo a few percent), crumbly, often with hydrated minerals; prized as water and organics feedstock. bennu, ryugu, mathilde. c-type (carbonaceous) asteroid">
+  <header><h3>Carbonaceous (C-type)</h3><span class="src">Asteroid taxonomy</span></header>
+  <p class="sum">Dark, primitive bodies rich in carbon compounds and water-bearing clays, largely unchanged since the system formed.</p>
+  <dl>
+    <dt>Science term</dt><dd>C-type (carbonaceous) asteroid</dd>
+    <dt>Looks like</dt><dd>Very dark (albedo a few percent), crumbly, often with hydrated minerals; prized as water and organics feedstock.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Cool, Icy. Also possible: Hot, Habitable zone"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot maybe" title="Hot: possible"></i><i class="z hz maybe" title="Habitable zone: possible"></i><i class="z cool on" title="Cool: most likely"></i><i class="z icy on" title="Icy: most likely"></i></span> cool, icy; also turns up hot, habitable zone</dd>
+    <dt>How often</dt><dd>common</dd>
+    <dt>Examples</dt><dd>Bennu, Ryugu, Mathilde.</dd>
+  </dl>
+</article><article class="ty" id="metallic-m-type" data-q="metallic (m-type) asteroidal exposed cores of shattered early bodies: mostly nickel-iron. the richest metal ore in a system. bright, radar-reflective, irregular; sometimes with rocky crust remnants. psyche, kleopatra. m-type (metallic) asteroid">
+  <header><h3>Metallic (M-type)</h3><span class="src">Asteroid taxonomy</span></header>
+  <p class="sum">Exposed cores of shattered early bodies: mostly nickel-iron. The richest metal ore in a system.</p>
+  <dl>
+    <dt>Science term</dt><dd>M-type (metallic) asteroid</dd>
+    <dt>Looks like</dt><dd>Bright, radar-reflective, irregular; sometimes with rocky crust remnants.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Hot, Habitable zone. Also possible: Scorched, Cool, Icy"><i class="z scorch maybe" title="Scorched: possible"></i><i class="z hot on" title="Hot: most likely"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool maybe" title="Cool: possible"></i><i class="z icy maybe" title="Icy: possible"></i></span> hot, habitable zone; also turns up scorched, cool, icy</dd>
+    <dt>How often</dt><dd>uncommon</dd>
+    <dt>Examples</dt><dd>Psyche, Kleopatra.</dd>
+  </dl>
+</article><article class="ty" id="cometary" data-q="cometary asteroidal loose aggregates of ice and dust from the outer system. near the star they warm and shed gas and dust in a coma and tails. black crust over ice; jets and a glowing coma when close to the star. halley, 67p/churyumov–gerasimenko. comet nucleus">
+  <header><h3>Cometary</h3><span class="src">Asteroid taxonomy</span></header>
+  <p class="sum">Loose aggregates of ice and dust from the outer system. Near the star they warm and shed gas and dust in a coma and tails.</p>
+  <dl>
+    <dt>Science term</dt><dd>comet nucleus</dd>
+    <dt>Looks like</dt><dd>Black crust over ice; jets and a glowing coma when close to the star.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Icy. Also possible: Cool"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz" title="Habitable zone: would change type"></i><i class="z cool maybe" title="Cool: possible"></i><i class="z icy on" title="Icy: most likely"></i></span> icy; also turns up cool</dd>
+    <dt>How often</dt><dd>uncommon</dd>
+    <dt>Examples</dt><dd>Halley, 67P/Churyumov–Gerasimenko.</dd>
+  </dl>
+</article><article class="ty" id="icy-planetoid" data-q="icy planetoid asteroidal small bodies of mixed ice and rock beyond the snow line: the building blocks of the outer belt. bright frost or reddened organic crust, often irregular. arrokoth, many small kuiper-belt objects. trans-neptunian object, icy planetesimal">
+  <header><h3>Icy planetoid</h3><span class="src">Starmap label</span></header>
+  <p class="sum">Small bodies of mixed ice and rock beyond the snow line: the building blocks of the outer belt.</p>
+  <dl>
+    <dt>Science term</dt><dd>trans-Neptunian object, icy planetesimal</dd>
+    <dt>Looks like</dt><dd>Bright frost or reddened organic crust, often irregular.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Icy. Also possible: Cool"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz" title="Habitable zone: would change type"></i><i class="z cool maybe" title="Cool: possible"></i><i class="z icy on" title="Icy: most likely"></i></span> icy; also turns up cool</dd>
+    <dt>How often</dt><dd>common</dd>
+    <dt>Examples</dt><dd>Arrokoth, many small Kuiper-belt objects.</dd>
+  </dl>
+</article></section><section class="cls" id="class-terrestrial"><h2>Terrestrial</h2><p class="cnote">Solid worlds from about the Moon&#x27;s mass to about two and a half Earth masses: rock, metal, ice, or a mix.</p><article class="ty" id="hermian" data-q="hermian terrestrial small, dense, airless rock close to its star. any atmosphere it once had was stripped away; the surface is scorched by day and frozen by night. heavily cratered grey rock, with long cliffs where the world shrank as its core cooled. mercury. hot rocky planet; airless &quot;bare rock&quot;; ultra-short-period planet">
+  <header><h3>Hermian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">Small, dense, airless rock close to its star. Any atmosphere it once had was stripped away; the surface is scorched by day and frozen by night.</p>
+  <dl>
+    <dt>Science term</dt><dd>hot rocky planet; airless &quot;bare rock&quot;; ultra-short-period planet</dd>
+    <dt>Looks like</dt><dd>Heavily cratered grey rock, with long cliffs where the world shrank as its core cooled.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Scorched, Hot. Also possible: Habitable zone, Cool, Icy"><i class="z scorch on" title="Scorched: most likely"></i><i class="z hot on" title="Hot: most likely"></i><i class="z hz maybe" title="Habitable zone: possible"></i><i class="z cool maybe" title="Cool: possible"></i><i class="z icy maybe" title="Icy: possible"></i></span> scorched, hot; also turns up habitable zone, cool, icy</dd>
+    <dt>How often</dt><dd>common</dd>
+    <dt>Examples</dt><dd>Mercury.</dd>
+  </dl>
+</article><article class="ty" id="ferrinian" data-q="ferrinian terrestrial an iron-rich world with an outsized metal core, often the stripped remnant of a larger body that lost its mantle in giant impacts. dark, dense, strong magnetic field for its size. mercury is borderline; kepler-107c and k2-229b are dense candidates. iron planet; super-mercury">
+  <header><h3>Ferrinian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">An iron-rich world with an outsized metal core, often the stripped remnant of a larger body that lost its mantle in giant impacts.</p>
+  <dl>
+    <dt>Science term</dt><dd>iron planet; super-Mercury</dd>
+    <dt>Looks like</dt><dd>Dark, dense, strong magnetic field for its size.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Scorched, Hot. Also possible: Habitable zone, Cool, Icy"><i class="z scorch on" title="Scorched: most likely"></i><i class="z hot on" title="Hot: most likely"></i><i class="z hz maybe" title="Habitable zone: possible"></i><i class="z cool maybe" title="Cool: possible"></i><i class="z icy maybe" title="Icy: possible"></i></span> scorched, hot; also turns up habitable zone, cool, icy</dd>
+    <dt>How often</dt><dd>uncommon</dd>
+    <dt>Examples</dt><dd>Mercury is borderline; Kepler-107c and K2-229b are dense candidates.</dd>
+  </dl>
+</article><article class="ty" id="selenian" data-q="selenian terrestrial a rocky body with little or no metal core and no real atmosphere, like the moon. common among small worlds and moons. grey regolith, maria of old lava, craters of every age. luna, io before tidal heating is considered, many large asteroids. airless rocky body; moon analogue">
+  <header><h3>Selenian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A rocky body with little or no metal core and no real atmosphere, like the Moon. Common among small worlds and moons.</p>
+  <dl>
+    <dt>Science term</dt><dd>airless rocky body; Moon analogue</dd>
+    <dt>Looks like</dt><dd>Grey regolith, maria of old lava, craters of every age.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Hot, Habitable zone, Cool. Also possible: Scorched, Icy"><i class="z scorch maybe" title="Scorched: possible"></i><i class="z hot on" title="Hot: most likely"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool on" title="Cool: most likely"></i><i class="z icy maybe" title="Icy: possible"></i></span> hot, habitable zone, cool; also turns up scorched, icy</dd>
+    <dt>How often</dt><dd>common</dd>
+    <dt>Examples</dt><dd>Luna, Io before tidal heating is considered, many large asteroids.</dd>
+  </dl>
+</article><article class="ty" id="adamaean" data-q="adamaean terrestrial a carbon world: formed where carbon outweighed oxygen, so it is built of carbides and graphite, perhaps with diamond at depth, instead of silicate rock. black, sooty surface; tar and hydrocarbon seas if it has an atmosphere. 55 cancri e was once proposed as one (since disputed). carbon planet">
+  <header><h3>Adamaean</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A carbon world: formed where carbon outweighed oxygen, so it is built of carbides and graphite, perhaps with diamond at depth, instead of silicate rock.</p>
+  <dl>
+    <dt>Science term</dt><dd>carbon planet</dd>
+    <dt>Looks like</dt><dd>Black, sooty surface; tar and hydrocarbon seas if it has an atmosphere.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Scorched, Hot, Habitable zone, Cool. Also possible: Icy"><i class="z scorch on" title="Scorched: most likely"></i><i class="z hot on" title="Hot: most likely"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool on" title="Cool: most likely"></i><i class="z icy maybe" title="Icy: possible"></i></span> scorched, hot, habitable zone, cool; also turns up icy</dd>
+    <dt>How often</dt><dd>rare</dd>
+    <dt>Examples</dt><dd>55 Cancri e was once proposed as one (since disputed).</dd>
+  </dl>
+</article><article class="ty" id="cytherean" data-q="cytherean terrestrial a runaway-greenhouse world: its oceans boiled into a thick carbon-dioxide atmosphere that traps heat. surface pressure can be ninety times earth&#x27;s and hot enough to melt lead. featureless cloud deck of sulphuric acid; volcanic plains beneath, dim and orange at the surface. venus. venus analogue; venus-zone planet">
+  <header><h3>Cytherean</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A runaway-greenhouse world: its oceans boiled into a thick carbon-dioxide atmosphere that traps heat. Surface pressure can be ninety times Earth&#x27;s and hot enough to melt lead.</p>
+  <dl>
+    <dt>Science term</dt><dd>Venus analogue; Venus-zone planet</dd>
+    <dt>Looks like</dt><dd>Featureless cloud deck of sulphuric acid; volcanic plains beneath, dim and orange at the surface.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Hot, Habitable zone. Also possible: Scorched"><i class="z scorch maybe" title="Scorched: possible"></i><i class="z hot on" title="Hot: most likely"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> hot, habitable zone; also turns up scorched</dd>
+    <dt>How often</dt><dd>common inside the habitable zone, rare in it</dd>
+    <dt>Examples</dt><dd>Venus.</dd>
+  </dl>
+</article><article class="ty" id="pelacytherean" data-q="pelacytherean terrestrial a hot water world: liquid oceans kept liquid by crushing pressure under a thick, steamy atmosphere. endless white cloud; scalding sea below. none confirmed. hot ocean planet (moist greenhouse)">
+  <header><h3>PelaCytherean</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A hot water world: liquid oceans kept liquid by crushing pressure under a thick, steamy atmosphere.</p>
+  <dl>
+    <dt>Science term</dt><dd>hot ocean planet (moist greenhouse)</dd>
+    <dt>Looks like</dt><dd>Endless white cloud; scalding sea below.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Hot. Also possible: Habitable zone"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot on" title="Hot: most likely"></i><i class="z hz maybe" title="Habitable zone: possible"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> hot; also turns up habitable zone</dd>
+    <dt>How often</dt><dd>rare</dd>
+    <dt>Examples</dt><dd>None confirmed.</dd>
+  </dl>
+</article><article class="ty" id="vitriolic" data-q="vitriolic terrestrial a world whose seas are sulphuric acid rather than water, under a dense, acidic atmosphere. yellow-white cloud; oily, fuming seas. none confirmed. venus analogue with acid seas">
+  <header><h3>Vitriolic</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A world whose seas are sulphuric acid rather than water, under a dense, acidic atmosphere.</p>
+  <dl>
+    <dt>Science term</dt><dd>Venus analogue with acid seas</dd>
+    <dt>Looks like</dt><dd>Yellow-white cloud; oily, fuming seas.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Hot, Habitable zone"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot on" title="Hot: most likely"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> hot, habitable zone</dd>
+    <dt>How often</dt><dd>rare</dd>
+    <dt>Examples</dt><dd>None confirmed.</dd>
+  </dl>
+</article><article class="ty" id="hephaestian" data-q="hephaestian terrestrial volcanically hyperactive: kept molten by tidal flexing or intense heat, constantly resurfacing itself with lava. yellow, red and black sulphur and lava; plumes hundreds of kilometres high. io (tidally heated); kepler-10b and corot-7b lava worlds. volcanic world; tidally heated world; lava world">
+  <header><h3>Hephaestian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">Volcanically hyperactive: kept molten by tidal flexing or intense heat, constantly resurfacing itself with lava.</p>
+  <dl>
+    <dt>Science term</dt><dd>volcanic world; tidally heated world; lava world</dd>
+    <dt>Looks like</dt><dd>Yellow, red and black sulphur and lava; plumes hundreds of kilometres high.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Scorched, Hot. Also possible: Habitable zone, Cool, Icy"><i class="z scorch on" title="Scorched: most likely"></i><i class="z hot on" title="Hot: most likely"></i><i class="z hz maybe" title="Habitable zone: possible"></i><i class="z cool maybe" title="Cool: possible"></i><i class="z icy maybe" title="Icy: possible"></i></span> scorched, hot; also turns up habitable zone, cool, icy</dd>
+    <dt>How often</dt><dd>uncommon (common among inner moons of giants)</dd>
+    <dt>Examples</dt><dd>Io (tidally heated); Kepler-10b and CoRoT-7b lava worlds.</dd>
+  </dl>
+</article><article class="ty" id="vesperian" data-q="vesperian terrestrial a tidally locked world: one face always to its star. life and settlement, if any, cluster in the twilight band between a scorched dayside and a frozen nightside. a bright hemisphere, a dark one, and a ring of dusk between them; strong winds across the terminator. many planets of red dwarfs; proxima centauri b may be one. tidally locked planet; &quot;eyeball&quot; planet">
+  <header><h3>Vesperian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A tidally locked world: one face always to its star. Life and settlement, if any, cluster in the twilight band between a scorched dayside and a frozen nightside.</p>
+  <dl>
+    <dt>Science term</dt><dd>tidally locked planet; &quot;eyeball&quot; planet</dd>
+    <dt>Looks like</dt><dd>A bright hemisphere, a dark one, and a ring of dusk between them; strong winds across the terminator.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Scorched, Hot, Habitable zone. Also possible: Cool"><i class="z scorch on" title="Scorched: most likely"></i><i class="z hot on" title="Hot: most likely"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool maybe" title="Cool: possible"></i><i class="z icy" title="Icy: would change type"></i></span> scorched, hot, habitable zone; also turns up cool</dd>
+    <dt>How often</dt><dd>uncommon (only tidally locked worlds)</dd>
+    <dt>Examples</dt><dd>Many planets of red dwarfs; Proxima Centauri b may be one.</dd>
+  </dl>
+</article><article class="ty" id="euarean" data-q="euarean terrestrial a mature mars-like world: thin air, cold desert surface, its water lost to space or locked as ice. rust-red dust, dry riverbeds, polar caps, dust storms. mars. mars analogue">
+  <header><h3>EuArean</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A mature Mars-like world: thin air, cold desert surface, its water lost to space or locked as ice.</p>
+  <dl>
+    <dt>Science term</dt><dd>Mars analogue</dd>
+    <dt>Looks like</dt><dd>Rust-red dust, dry riverbeds, polar caps, dust storms.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone, Cool. Also possible: Hot"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot maybe" title="Hot: possible"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool on" title="Cool: most likely"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone, cool; also turns up hot</dd>
+    <dt>How often</dt><dd>common</dd>
+    <dt>Examples</dt><dd>Mars.</dd>
+  </dl>
+</article><article class="ty" id="eoarean" data-q="eoarean terrestrial a young mars-like world that still has a thicker atmosphere and some surface water: what mars was early on. red-brown land, shallow seas and lakes, thin clouds. early mars. early-mars analogue">
+  <header><h3>EoArean</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A young Mars-like world that still has a thicker atmosphere and some surface water: what Mars was early on.</p>
+  <dl>
+    <dt>Science term</dt><dd>early-Mars analogue</dd>
+    <dt>Looks like</dt><dd>Red-brown land, shallow seas and lakes, thin clouds.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone. Also possible: Cool"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool maybe" title="Cool: possible"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone; also turns up cool</dd>
+    <dt>How often</dt><dd>uncommon</dd>
+    <dt>Examples</dt><dd>Early Mars.</dd>
+  </dl>
+</article><article class="ty" id="areanlacustric" data-q="areanlacustric terrestrial a small mars-like world with lakes and shallow seas scattered over its surface. red-brown with blue-grey lakes. none confirmed. early-mars analogue with lakes">
+  <header><h3>AreanLacustric</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A small Mars-like world with lakes and shallow seas scattered over its surface.</p>
+  <dl>
+    <dt>Science term</dt><dd>early-Mars analogue with lakes</dd>
+    <dt>Looks like</dt><dd>Red-brown with blue-grey lakes.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone</dd>
+    <dt>How often</dt><dd>rare</dd>
+    <dt>Examples</dt><dd>None confirmed.</dd>
+  </dl>
+</article><article class="ty" id="areanxeric" data-q="areanxeric terrestrial a hot, dry mars-like world: thin air, no surface water, baked dust. pale orange desert under a hazy sky. none confirmed. hot desert mars analogue">
+  <header><h3>AreanXeric</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A hot, dry Mars-like world: thin air, no surface water, baked dust.</p>
+  <dl>
+    <dt>Science term</dt><dd>hot desert Mars analogue</dd>
+    <dt>Looks like</dt><dd>Pale orange desert under a hazy sky.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Hot, Habitable zone"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot on" title="Hot: most likely"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> hot, habitable zone</dd>
+    <dt>How often</dt><dd>uncommon</dd>
+    <dt>Examples</dt><dd>None confirmed.</dd>
+  </dl>
+</article><article class="ty" id="areantundral" data-q="areantundral terrestrial a cold mars-like world with large ice reserves: frozen ground, ice caps, thin air. white-streaked red rock; frost at dawn. mars at its coldest; many cool-zone worlds. cold mars analogue; frozen rocky planet">
+  <header><h3>AreanTundral</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A cold Mars-like world with large ice reserves: frozen ground, ice caps, thin air.</p>
+  <dl>
+    <dt>Science term</dt><dd>cold Mars analogue; frozen rocky planet</dd>
+    <dt>Looks like</dt><dd>White-streaked red rock; frost at dawn.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone, Cool. Also possible: Icy"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool on" title="Cool: most likely"></i><i class="z icy maybe" title="Icy: possible"></i></span> habitable zone, cool; also turns up icy</dd>
+    <dt>How often</dt><dd>common beyond the habitable zone</dd>
+    <dt>Examples</dt><dd>Mars at its coldest; many cool-zone worlds.</dd>
+  </dl>
+</article><article class="ty" id="eogaian" data-q="eogaian terrestrial a young earth-like world with oceans and an atmosphere, but no complex life yet; its air may still lack free oxygen. blue ocean, brown and grey continents, no green. early earth. temperate terrestrial planet; archean-earth analogue">
+  <header><h3>EoGaian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A young Earth-like world with oceans and an atmosphere, but no complex life yet; its air may still lack free oxygen.</p>
+  <dl>
+    <dt>Science term</dt><dd>temperate terrestrial planet; Archean-Earth analogue</dd>
+    <dt>Looks like</dt><dd>Blue ocean, brown and grey continents, no green.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone</dd>
+    <dt>How often</dt><dd>uncommon</dd>
+    <dt>Examples</dt><dd>Early Earth.</dd>
+  </dl>
+</article><article class="ty" id="mesogaian" data-q="mesogaian terrestrial an earth-like world with simple life, such as microbial mats and algae, beginning to change its atmosphere. blue seas, stained coastlines, a faint green tinge. earth in the proterozoic. proterozoic-earth analogue; inhabited planet with simple life">
+  <header><h3>MesoGaian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">An Earth-like world with simple life, such as microbial mats and algae, beginning to change its atmosphere.</p>
+  <dl>
+    <dt>Science term</dt><dd>Proterozoic-Earth analogue; inhabited planet with simple life</dd>
+    <dt>Looks like</dt><dd>Blue seas, stained coastlines, a faint green tinge.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone</dd>
+    <dt>How often</dt><dd>rare</dd>
+    <dt>Examples</dt><dd>Earth in the Proterozoic.</dd>
+  </dl>
+</article><article class="ty" id="eugaian" data-q="eugaian terrestrial a garden world: oceans, continents and a mature biosphere with complex life and a breathable atmosphere. blue, green and white: the colours of earth. earth. earth analogue; earth twin">
+  <header><h3>EuGaian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A garden world: oceans, continents and a mature biosphere with complex life and a breathable atmosphere.</p>
+  <dl>
+    <dt>Science term</dt><dd>Earth analogue; Earth twin</dd>
+    <dt>Looks like</dt><dd>Blue, green and white: the colours of Earth.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone</dd>
+    <dt>How often</dt><dd>very rare</dd>
+    <dt>Examples</dt><dd>Earth.</dd>
+  </dl>
+</article><article class="ty" id="gaiantundral" data-q="gaiantundral terrestrial an earth-like world in ice-age conditions: glaciers reach far toward the equator, life clings to the warmer belts. white polar sheets, grey-green tundra, steel-blue seas. earth during its glacial periods. snowball or glacial earth analogue">
+  <header><h3>GaianTundral</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">An Earth-like world in ice-age conditions: glaciers reach far toward the equator, life clings to the warmer belts.</p>
+  <dl>
+    <dt>Science term</dt><dd>snowball or glacial Earth analogue</dd>
+    <dt>Looks like</dt><dd>White polar sheets, grey-green tundra, steel-blue seas.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone. Also possible: Cool"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool maybe" title="Cool: possible"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone; also turns up cool</dd>
+    <dt>How often</dt><dd>rare (outer habitable zone)</dd>
+    <dt>Examples</dt><dd>Earth during its glacial periods.</dd>
+  </dl>
+</article><article class="ty" id="campian" data-q="campian terrestrial a dry earth-like world with 25–50% ocean: wide grasslands and steppe between smaller seas. tawny plains, scattered seas. none confirmed. dry habitable planet">
+  <header><h3>Campian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A dry Earth-like world with 25–50% ocean: wide grasslands and steppe between smaller seas.</p>
+  <dl>
+    <dt>Science term</dt><dd>dry habitable planet</dd>
+    <dt>Looks like</dt><dd>Tawny plains, scattered seas.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone</dd>
+    <dt>How often</dt><dd>rare</dd>
+    <dt>Examples</dt><dd>None confirmed.</dd>
+  </dl>
+</article><article class="ty" id="paludial" data-q="paludial terrestrial a humid earth-like world with 25–50% ocean, much of the land low and waterlogged: marsh, fen and swamp forest. dark green lowlands laced with water. none confirmed. wet habitable planet">
+  <header><h3>Paludial</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A humid Earth-like world with 25–50% ocean, much of the land low and waterlogged: marsh, fen and swamp forest.</p>
+  <dl>
+    <dt>Science term</dt><dd>wet habitable planet</dd>
+    <dt>Looks like</dt><dd>Dark green lowlands laced with water.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone</dd>
+    <dt>How often</dt><dd>rare</dd>
+    <dt>Examples</dt><dd>None confirmed.</dd>
+  </dl>
+</article><article class="ty" id="lacustric" data-q="lacustric terrestrial a humid lowland world, 50–80% water, where seas break up into lakes and inland waters. mottled blue and green, few mountains. none confirmed. habitable planet with high land fraction of lakes">
+  <header><h3>Lacustric</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A humid lowland world, 50–80% water, where seas break up into lakes and inland waters.</p>
+  <dl>
+    <dt>Science term</dt><dd>habitable planet with high land fraction of lakes</dd>
+    <dt>Looks like</dt><dd>Mottled blue and green, few mountains.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone</dd>
+    <dt>How often</dt><dd>rare</dd>
+    <dt>Examples</dt><dd>None confirmed.</dd>
+  </dl>
+</article><article class="ty" id="xeric" data-q="xeric terrestrial a dry world with less than a quarter of its surface under water: deserts, salt flats, oases. ochre and white, a few blue seas. none confirmed; desert worlds are a staple of fiction. desert planet; dry habitable planet">
+  <header><h3>Xeric</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A dry world with less than a quarter of its surface under water: deserts, salt flats, oases.</p>
+  <dl>
+    <dt>Science term</dt><dd>desert planet; dry habitable planet</dd>
+    <dt>Looks like</dt><dd>Ochre and white, a few blue seas.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone. Also possible: Hot"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot maybe" title="Hot: possible"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone; also turns up hot</dd>
+    <dt>How often</dt><dd>uncommon</dd>
+    <dt>Examples</dt><dd>None confirmed; desert worlds are a staple of fiction.</dd>
+  </dl>
+</article><article class="ty" id="hyperxeric" data-q="hyperxeric terrestrial a very dry world with less than a tenth of its surface under water. sand seas and dust; rare lakes. none confirmed. desert (dune) planet">
+  <header><h3>HyperXeric</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A very dry world with less than a tenth of its surface under water.</p>
+  <dl>
+    <dt>Science term</dt><dd>desert (dune) planet</dd>
+    <dt>Looks like</dt><dd>Sand seas and dust; rare lakes.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone. Also possible: Hot"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot maybe" title="Hot: possible"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone; also turns up hot</dd>
+    <dt>How often</dt><dd>uncommon</dd>
+    <dt>Examples</dt><dd>None confirmed.</dd>
+  </dl>
+</article><article class="ty" id="pelagic" data-q="pelagic terrestrial an ocean world: 80–100% water, land limited to islands and small continents. deep blue with scattered islands. none confirmed. ocean planet">
+  <header><h3>Pelagic</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">An ocean world: 80–100% water, land limited to islands and small continents.</p>
+  <dl>
+    <dt>Science term</dt><dd>ocean planet</dd>
+    <dt>Looks like</dt><dd>Deep blue with scattered islands.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone</dd>
+    <dt>How often</dt><dd>uncommon</dd>
+    <dt>Examples</dt><dd>None confirmed.</dd>
+  </dl>
+</article><article class="ty" id="eupelagic" data-q="eupelagic terrestrial a shallow global ocean dotted with island arcs and reefs. turquoise shallows and chains of islands. none confirmed. shallow-ocean planet">
+  <header><h3>EuPelagic</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A shallow global ocean dotted with island arcs and reefs.</p>
+  <dl>
+    <dt>Science term</dt><dd>shallow-ocean planet</dd>
+    <dt>Looks like</dt><dd>Turquoise shallows and chains of islands.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone</dd>
+    <dt>How often</dt><dd>rare</dd>
+    <dt>Examples</dt><dd>None confirmed.</dd>
+  </dl>
+</article><article class="ty" id="bathypelagic" data-q="bathypelagic terrestrial a deep global ocean with no land at all; the sea floor may lie under high-pressure ice. unbroken blue. none confirmed. deep ocean planet; water world">
+  <header><h3>BathyPelagic</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A deep global ocean with no land at all; the sea floor may lie under high-pressure ice.</p>
+  <dl>
+    <dt>Science term</dt><dd>deep ocean planet; water world</dd>
+    <dt>Looks like</dt><dd>Unbroken blue.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone, Cool"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool on" title="Cool: most likely"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone, cool</dd>
+    <dt>How often</dt><dd>rare</dd>
+    <dt>Examples</dt><dd>None confirmed.</dd>
+  </dl>
+</article><article class="ty" id="tundralpelagic" data-q="tundralpelagic terrestrial an ocean world partly iced over: open water near the equator, pack ice toward the poles. blue band between white caps. none confirmed. partly frozen ocean planet">
+  <header><h3>TundralPelagic</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">An ocean world partly iced over: open water near the equator, pack ice toward the poles.</p>
+  <dl>
+    <dt>Science term</dt><dd>partly frozen ocean planet</dd>
+    <dt>Looks like</dt><dd>Blue band between white caps.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone. Also possible: Cool"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool maybe" title="Cool: possible"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone; also turns up cool</dd>
+    <dt>How often</dt><dd>rare (outer habitable zone)</dd>
+    <dt>Examples</dt><dd>None confirmed.</dd>
+  </dl>
+</article><article class="ty" id="pelagelidic" data-q="pelagelidic terrestrial an ocean world locked under ice: liquid water beneath a frozen shell. smooth white ice, cracks and ridges. none confirmed at planet size; compare europa. ice-covered ocean planet; snowball planet">
+  <header><h3>PelaGelidic</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">An ocean world locked under ice: liquid water beneath a frozen shell.</p>
+  <dl>
+    <dt>Science term</dt><dd>ice-covered ocean planet; snowball planet</dd>
+    <dt>Looks like</dt><dd>Smooth white ice, cracks and ridges.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Cool. Also possible: Icy"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz" title="Habitable zone: would change type"></i><i class="z cool on" title="Cool: most likely"></i><i class="z icy maybe" title="Icy: possible"></i></span> cool; also turns up icy</dd>
+    <dt>How often</dt><dd>rare</dd>
+    <dt>Examples</dt><dd>None confirmed at planet size; compare Europa.</dd>
+  </dl>
+</article><article class="ty" id="chlorogaian" data-q="chlorogaian terrestrial an earth-like world whose atmosphere carries chlorine compounds, with a biosphere adapted to them. yellow-green tinted sky and sea. none confirmed. (no survey term)">
+  <header><h3>Chlorogaian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">An Earth-like world whose atmosphere carries chlorine compounds, with a biosphere adapted to them.</p>
+  <dl>
+    <dt>Science term</dt><dd>(no survey term)</dd>
+    <dt>Looks like</dt><dd>Yellow-green tinted sky and sea.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone</dd>
+    <dt>How often</dt><dd>very rare</dd>
+    <dt>Examples</dt><dd>None confirmed.</dd>
+  </dl>
+</article><article class="ty" id="barogaian" data-q="barogaian terrestrial a hot, wet, high-pressure earth-like world (baro-: pressure): dense, humid atmosphere, warm seas, fast weather. thick white cloud over dark seas. none confirmed. hot, dense-atmosphere habitable planet">
+  <header><h3>BaroGaian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A hot, wet, high-pressure Earth-like world (baro-: pressure): dense, humid atmosphere, warm seas, fast weather.</p>
+  <dl>
+    <dt>Science term</dt><dd>hot, dense-atmosphere habitable planet</dd>
+    <dt>Looks like</dt><dd>Thick white cloud over dark seas.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone. Also possible: Hot"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot maybe" title="Hot: possible"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone; also turns up hot</dd>
+    <dt>How often</dt><dd>very rare (inner habitable zone)</dd>
+    <dt>Examples</dt><dd>None confirmed.</dd>
+  </dl>
+</article><article class="ty" id="postgaian" data-q="postgaian terrestrial an old earth-like world past its prime: its star has brightened, its oceans are retreating and its biosphere is in decline. shrinking seas, spreading desert. earth in about a billion years. late-stage habitable planet; aging earth analogue">
+  <header><h3>PostGaian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">An old Earth-like world past its prime: its star has brightened, its oceans are retreating and its biosphere is in decline.</p>
+  <dl>
+    <dt>Science term</dt><dd>late-stage habitable planet; aging Earth analogue</dd>
+    <dt>Looks like</dt><dd>Shrinking seas, spreading desert.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone. Also possible: Hot"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot maybe" title="Hot: possible"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone; also turns up hot</dd>
+    <dt>How often</dt><dd>rare</dd>
+    <dt>Examples</dt><dd>Earth in about a billion years.</dd>
+  </dl>
+</article><article class="ty" id="lithicgelidian" data-q="lithicgelidian terrestrial a cold world of mixed rock and ice, roughly half and half, with little or no atmosphere. grey-white cratered ice and rock. callisto, ganymede, pluto, charon, most large outer moons. rock-ice world; icy moon">
+  <header><h3>LithicGelidian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A cold world of mixed rock and ice, roughly half and half, with little or no atmosphere.</p>
+  <dl>
+    <dt>Science term</dt><dd>rock-ice world; icy moon</dd>
+    <dt>Looks like</dt><dd>Grey-white cratered ice and rock.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Cool, Icy"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz" title="Habitable zone: would change type"></i><i class="z cool on" title="Cool: most likely"></i><i class="z icy on" title="Icy: most likely"></i></span> cool, icy</dd>
+    <dt>How often</dt><dd>common</dd>
+    <dt>Examples</dt><dd>Callisto, Ganymede, Pluto, Charon, most large outer moons.</dd>
+  </dl>
+</article><article class="ty" id="europan" data-q="europan terrestrial an ice shell over a liquid water ocean kept warm by tides or internal heat. one of the likeliest homes for life beyond a habitable zone. bright, cracked ice with reddish streaks; plumes in places. europa, enceladus, ganymede. subsurface-ocean world; icy ocean moon">
+  <header><h3>Europan</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">An ice shell over a liquid water ocean kept warm by tides or internal heat. One of the likeliest homes for life beyond a habitable zone.</p>
+  <dl>
+    <dt>Science term</dt><dd>subsurface-ocean world; icy ocean moon</dd>
+    <dt>Looks like</dt><dd>Bright, cracked ice with reddish streaks; plumes in places.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Icy. Also possible: Cool"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz" title="Habitable zone: would change type"></i><i class="z cool maybe" title="Cool: possible"></i><i class="z icy on" title="Icy: most likely"></i></span> icy; also turns up cool</dd>
+    <dt>How often</dt><dd>common (especially giant moons)</dd>
+    <dt>Examples</dt><dd>Europa, Enceladus, Ganymede.</dd>
+  </dl>
+</article><article class="ty" id="titanian" data-q="titanian terrestrial an icy world with a thick nitrogen atmosphere and hydrocarbon haze. methane and ethane rain into lakes and rivers. orange haze; dark lakes under it. titan. hydrocarbon world; titan analogue">
+  <header><h3>Titanian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">An icy world with a thick nitrogen atmosphere and hydrocarbon haze. Methane and ethane rain into lakes and rivers.</p>
+  <dl>
+    <dt>Science term</dt><dd>hydrocarbon world; Titan analogue</dd>
+    <dt>Looks like</dt><dd>Orange haze; dark lakes under it.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Cool, Icy"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz" title="Habitable zone: would change type"></i><i class="z cool on" title="Cool: most likely"></i><i class="z icy on" title="Icy: most likely"></i></span> cool, icy</dd>
+    <dt>How often</dt><dd>uncommon</dd>
+    <dt>Examples</dt><dd>Titan.</dd>
+  </dl>
+</article><article class="ty" id="ymirian" data-q="ymirian terrestrial almost entirely ices of water, methane, ammonia or nitrogen, with little rock: very cold and very bright. brilliant white or pinkish frost. tethys, mimas, iapetus. ice world; icy dwarf">
+  <header><h3>Ymirian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">Almost entirely ices of water, methane, ammonia or nitrogen, with little rock: very cold and very bright.</p>
+  <dl>
+    <dt>Science term</dt><dd>ice world; icy dwarf</dd>
+    <dt>Looks like</dt><dd>Brilliant white or pinkish frost.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Icy"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz" title="Habitable zone: would change type"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy on" title="Icy: most likely"></i></span> icy</dd>
+    <dt>How often</dt><dd>common</dd>
+    <dt>Examples</dt><dd>Tethys, Mimas, Iapetus.</dd>
+  </dl>
+</article><article class="ty" id="amunian" data-q="amunian terrestrial a cold world whose chemistry runs on ammonia-water mixtures: ammonia seas or slush where water alone would be frozen solid. pale violet-grey ices. none confirmed. ammonia world">
+  <header><h3>Amunian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A cold world whose chemistry runs on ammonia-water mixtures: ammonia seas or slush where water alone would be frozen solid.</p>
+  <dl>
+    <dt>Science term</dt><dd>ammonia world</dd>
+    <dt>Looks like</dt><dd>Pale violet-grey ices.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Cool, Icy"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz" title="Habitable zone: would change type"></i><i class="z cool on" title="Cool: most likely"></i><i class="z icy on" title="Icy: most likely"></i></span> cool, icy</dd>
+    <dt>How often</dt><dd>uncommon</dd>
+    <dt>Examples</dt><dd>None confirmed.</dd>
+  </dl>
+</article></section><section class="cls" id="class-superterrestrial"><h2>Superterrestrial</h2><p class="cnote">From about two and a half to fifteen Earth masses: super-Earths, sub-Neptunes and water worlds, the commonest planets the surveys find.</p><article class="ty" id="superhermian" data-q="superhermian superterrestrial a massive, airless rocky world close to its star: a super-earth stripped of atmosphere. dark scorched rock, perhaps a glowing dayside. lhs 3844b. hot super-earth; bare-rock super-earth">
+  <header><h3>SuperHermian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A massive, airless rocky world close to its star: a super-Earth stripped of atmosphere.</p>
+  <dl>
+    <dt>Science term</dt><dd>hot super-Earth; bare-rock super-Earth</dd>
+    <dt>Looks like</dt><dd>Dark scorched rock, perhaps a glowing dayside.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Scorched, Hot. Also possible: Habitable zone, Cool, Icy"><i class="z scorch on" title="Scorched: most likely"></i><i class="z hot on" title="Hot: most likely"></i><i class="z hz maybe" title="Habitable zone: possible"></i><i class="z cool maybe" title="Cool: possible"></i><i class="z icy maybe" title="Icy: possible"></i></span> scorched, hot; also turns up habitable zone, cool, icy</dd>
+    <dt>How often</dt><dd>uncommon</dd>
+    <dt>Examples</dt><dd>LHS 3844b.</dd>
+  </dl>
+</article><article class="ty" id="superferrinian" data-q="superferrinian superterrestrial a massive iron-rich world: a super-earth with a huge metal core. dense, dark, strongly magnetic. kepler-10b and k2-229b are iron-rich candidates. super-mercury">
+  <header><h3>SuperFerrinian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A massive iron-rich world: a super-Earth with a huge metal core.</p>
+  <dl>
+    <dt>Science term</dt><dd>super-Mercury</dd>
+    <dt>Looks like</dt><dd>Dense, dark, strongly magnetic.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Scorched. Also possible: Hot, Habitable zone, Cool, Icy"><i class="z scorch on" title="Scorched: most likely"></i><i class="z hot maybe" title="Hot: possible"></i><i class="z hz maybe" title="Habitable zone: possible"></i><i class="z cool maybe" title="Cool: possible"></i><i class="z icy maybe" title="Icy: possible"></i></span> scorched; also turns up hot, habitable zone, cool, icy</dd>
+    <dt>How often</dt><dd>rare</dd>
+    <dt>Examples</dt><dd>Kepler-10b and K2-229b are iron-rich candidates.</dd>
+  </dl>
+</article><article class="ty" id="supercytherean" data-q="supercytherean superterrestrial a massive runaway-greenhouse world: venus scaled up, with even thicker air. featureless bright cloud. gj 1132b and many hot super-earths may be. hot super-earth with thick atmosphere; super-venus">
+  <header><h3>SuperCytherean</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A massive runaway-greenhouse world: Venus scaled up, with even thicker air.</p>
+  <dl>
+    <dt>Science term</dt><dd>hot super-Earth with thick atmosphere; super-Venus</dd>
+    <dt>Looks like</dt><dd>Featureless bright cloud.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Hot, Habitable zone. Also possible: Scorched"><i class="z scorch maybe" title="Scorched: possible"></i><i class="z hot on" title="Hot: most likely"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> hot, habitable zone; also turns up scorched</dd>
+    <dt>How often</dt><dd>common inside the habitable zone</dd>
+    <dt>Examples</dt><dd>GJ 1132b and many hot super-Earths may be.</dd>
+  </dl>
+</article><article class="ty" id="superarean" data-q="superarean superterrestrial a massive dry world with a thin atmosphere for its size: a big, cold desert. rust or grey desert under high gravity. none confirmed. cold super-earth">
+  <header><h3>SuperArean</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A massive dry world with a thin atmosphere for its size: a big, cold desert.</p>
+  <dl>
+    <dt>Science term</dt><dd>cold super-Earth</dd>
+    <dt>Looks like</dt><dd>Rust or grey desert under high gravity.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone, Cool. Also possible: Hot, Icy"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot maybe" title="Hot: possible"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool on" title="Cool: most likely"></i><i class="z icy maybe" title="Icy: possible"></i></span> habitable zone, cool; also turns up hot, icy</dd>
+    <dt>How often</dt><dd>uncommon</dd>
+    <dt>Examples</dt><dd>None confirmed.</dd>
+  </dl>
+</article><article class="ty" id="supergaian" data-q="supergaian superterrestrial a high-gravity earth-like world: oceans, continents and possibly life, with thicker air and lower mountains. earth-like colours, flatter relief. candidates include kepler-442b and kepler-62f. habitable-zone super-earth; super-habitable planet">
+  <header><h3>SuperGaian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A high-gravity Earth-like world: oceans, continents and possibly life, with thicker air and lower mountains.</p>
+  <dl>
+    <dt>Science term</dt><dd>habitable-zone super-Earth; super-habitable planet</dd>
+    <dt>Looks like</dt><dd>Earth-like colours, flatter relief.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone</dd>
+    <dt>How often</dt><dd>rare</dd>
+    <dt>Examples</dt><dd>Candidates include Kepler-442b and Kepler-62f.</dd>
+  </dl>
+</article><article class="ty" id="pyrothalassic" data-q="pyrothalassic superterrestrial a lava-ocean world: its dayside is a sea of molten rock. glowing orange dayside, black crust at night. kepler-78b, 55 cancri e, k2-141b. lava world; magma-ocean planet">
+  <header><h3>Pyrothalassic</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A lava-ocean world: its dayside is a sea of molten rock.</p>
+  <dl>
+    <dt>Science term</dt><dd>lava world; magma-ocean planet</dd>
+    <dt>Looks like</dt><dd>Glowing orange dayside, black crust at night.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Scorched, Hot"><i class="z scorch on" title="Scorched: most likely"></i><i class="z hot on" title="Hot: most likely"></i><i class="z hz" title="Habitable zone: would change type"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> scorched, hot</dd>
+    <dt>How often</dt><dd>uncommon</dd>
+    <dt>Examples</dt><dd>Kepler-78b, 55 Cancri e, K2-141b.</dd>
+  </dl>
+</article><article class="ty" id="pyrohydrothalassic" data-q="pyrohydrothalassic superterrestrial a steam world: a deep envelope of supercritical water over rock, neither ocean nor atmosphere. bright, hazy white. gj 1214b and toi-270 d may be. steam world; supercritical water world">
+  <header><h3>Pyrohydrothalassic</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A steam world: a deep envelope of supercritical water over rock, neither ocean nor atmosphere.</p>
+  <dl>
+    <dt>Science term</dt><dd>steam world; supercritical water world</dd>
+    <dt>Looks like</dt><dd>Bright, hazy white.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Scorched, Hot"><i class="z scorch on" title="Scorched: most likely"></i><i class="z hot on" title="Hot: most likely"></i><i class="z hz" title="Habitable zone: would change type"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> scorched, hot</dd>
+    <dt>How often</dt><dd>uncommon</dd>
+    <dt>Examples</dt><dd>GJ 1214b and TOI-270 d may be.</dd>
+  </dl>
+</article><article class="ty" id="panthalassic" data-q="panthalassic superterrestrial a giant water world: an ocean hundreds of kilometres deep over high-pressure ice, with no land at all. unbroken deep blue or white cloud. kepler-22b and kepler-138d are candidates. water world; ocean super-earth">
+  <header><h3>Panthalassic</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A giant water world: an ocean hundreds of kilometres deep over high-pressure ice, with no land at all.</p>
+  <dl>
+    <dt>Science term</dt><dd>water world; ocean super-Earth</dd>
+    <dt>Looks like</dt><dd>Unbroken deep blue or white cloud.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone, Cool"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool on" title="Cool: most likely"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone, cool</dd>
+    <dt>How often</dt><dd>uncommon</dd>
+    <dt>Examples</dt><dd>Kepler-22b and Kepler-138d are candidates.</dd>
+  </dl>
+</article><article class="ty" id="supereuropan" data-q="supereuropan superterrestrial a massive ice shell over a deep ocean: europa scaled up. cracked bright ice. none confirmed. icy super-earth with subsurface ocean">
+  <header><h3>SuperEuropan</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A massive ice shell over a deep ocean: Europa scaled up.</p>
+  <dl>
+    <dt>Science term</dt><dd>icy super-Earth with subsurface ocean</dd>
+    <dt>Looks like</dt><dd>Cracked bright ice.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Cool, Icy"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz" title="Habitable zone: would change type"></i><i class="z cool on" title="Cool: most likely"></i><i class="z icy on" title="Icy: most likely"></i></span> cool, icy</dd>
+    <dt>How often</dt><dd>uncommon</dd>
+    <dt>Examples</dt><dd>None confirmed.</dd>
+  </dl>
+</article><article class="ty" id="superymirian" data-q="superymirian superterrestrial a massive ice world, mostly water and other ices. bright, cold, smooth. none confirmed. ice super-earth">
+  <header><h3>SuperYmirian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A massive ice world, mostly water and other ices.</p>
+  <dl>
+    <dt>Science term</dt><dd>ice super-Earth</dd>
+    <dt>Looks like</dt><dd>Bright, cold, smooth.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Icy. Also possible: Cool"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz" title="Habitable zone: would change type"></i><i class="z cool maybe" title="Cool: possible"></i><i class="z icy on" title="Icy: most likely"></i></span> icy; also turns up cool</dd>
+    <dt>How often</dt><dd>common beyond the snow line</dd>
+    <dt>Examples</dt><dd>None confirmed.</dd>
+  </dl>
+</article><article class="ty" id="gas-dwarf" data-q="gas dwarf superterrestrial a sub-neptune: a rocky core wrapped in a thick hydrogen-helium envelope. no solid surface to stand on. surveys find these more often than anything else, though our own system has none. pale blue-grey haze, no visible surface. gj 1214b, toi-270 d, k2-18b. sub-neptune; mini-neptune">
+  <header><h3>Gas dwarf</h3><span class="src">Exoplanet surveys</span></header>
+  <p class="sum">A sub-Neptune: a rocky core wrapped in a thick hydrogen-helium envelope. No solid surface to stand on. Surveys find these more often than anything else, though our own system has none.</p>
+  <dl>
+    <dt>Science term</dt><dd>sub-Neptune; mini-Neptune</dd>
+    <dt>Looks like</dt><dd>Pale blue-grey haze, no visible surface.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Scorched, Hot, Habitable zone, Cool, Icy"><i class="z scorch on" title="Scorched: most likely"></i><i class="z hot on" title="Hot: most likely"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool on" title="Cool: most likely"></i><i class="z icy on" title="Icy: most likely"></i></span> scorched, hot, habitable zone, cool, icy</dd>
+    <dt>How often</dt><dd>the most common planet found</dd>
+    <dt>Examples</dt><dd>GJ 1214b, TOI-270 d, K2-18b.</dd>
+  </dl>
+</article><article class="ty" id="hycean" data-q="hycean superterrestrial an ocean world under a hydrogen-rich atmosphere. its thick air keeps the ocean liquid further from the star than an earth-like world could manage. deep blue-green haze. k2-18b is the best-known candidate. hycean world">
+  <header><h3>Hycean</h3><span class="src">Exoplanet surveys</span></header>
+  <p class="sum">An ocean world under a hydrogen-rich atmosphere. Its thick air keeps the ocean liquid further from the star than an Earth-like world could manage.</p>
+  <dl>
+    <dt>Science term</dt><dd>hycean world</dd>
+    <dt>Looks like</dt><dd>Deep blue-green haze.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone, Cool"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool on" title="Cool: most likely"></i><i class="z icy" title="Icy: would change type"></i></span> habitable zone, cool</dd>
+    <dt>How often</dt><dd>uncommon</dd>
+    <dt>Examples</dt><dd>K2-18b is the best-known candidate.</dd>
+  </dl>
+</article><article class="ty" id="nebulous" data-q="nebulous superterrestrial a world wrapped in a helium-rich envelope, its lighter hydrogen boiled off by starlight. strong winds race around it. pale, cloudless glow. gj 436b may be one. helium planet">
+  <header><h3>Nebulous</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A world wrapped in a helium-rich envelope, its lighter hydrogen boiled off by starlight. Strong winds race around it.</p>
+  <dl>
+    <dt>Science term</dt><dd>helium planet</dd>
+    <dt>Looks like</dt><dd>Pale, cloudless glow.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Scorched, Hot, Habitable zone"><i class="z scorch on" title="Scorched: most likely"></i><i class="z hot on" title="Hot: most likely"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> scorched, hot, habitable zone</dd>
+    <dt>How often</dt><dd>rare</dd>
+    <dt>Examples</dt><dd>GJ 436b may be one.</dd>
+  </dl>
+</article><article class="ty" id="super-puff" data-q="super-puff superterrestrial a planet of very low density: neptune&#x27;s mass, saturn&#x27;s size, puffed up with gas and haze. its density is like candy floss. hazy, featureless, enormous for its mass. kepler-51 b, c and d. super-puff">
+  <header><h3>Super-puff</h3><span class="src">Exoplanet surveys</span></header>
+  <p class="sum">A planet of very low density: Neptune&#x27;s mass, Saturn&#x27;s size, puffed up with gas and haze. Its density is like candy floss.</p>
+  <dl>
+    <dt>Science term</dt><dd>super-puff</dd>
+    <dt>Looks like</dt><dd>Hazy, featureless, enormous for its mass.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Hot, Habitable zone, Cool, Icy"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot on" title="Hot: most likely"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool on" title="Cool: most likely"></i><i class="z icy on" title="Icy: most likely"></i></span> hot, habitable zone, cool, icy</dd>
+    <dt>How often</dt><dd>very rare</dd>
+    <dt>Examples</dt><dd>Kepler-51 b, c and d.</dd>
+  </dl>
+</article></section><section class="cls" id="class-jovian"><h2>Jovian</h2><p class="cnote">Gas and ice giants, typed by temperature band. Neptunian means an ice giant (about 15 to 60 Earth masses); Jovian means a gas giant (above about 60). A giant&#x27;s band follows its temperature wherever it ends up, so a giant that migrates simply changes band.</p><article class="ty" id="frigi" data-q="frigi jovian neptunian giant hydrogen clouds white and featureless. so cold that hydrogen itself can form clouds. none confirmed. very cold giant"><span id="frigi-jovian" class="anc"></span><span id="frigi-neptunian" class="anc"></span>
+  <header><h3>Frigi-Jovian · Frigi-Neptunian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum"><b>below 30 K.</b> Hydrogen clouds. White and featureless. So cold that hydrogen itself can form clouds.</p>
+  <dl><dt>Science term</dt><dd>very cold giant</dd><dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Icy"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz" title="Habitable zone: would change type"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy on" title="Icy: most likely"></i></span> Very far from the star, or around a very dim one.</dd><dt>Examples</dt><dd>None confirmed.</dd></dl>
+</article><article class="ty" id="cryo" data-q="cryo jovian neptunian giant methane clouds blue or blue-green, from methane absorbing red light. uranus and neptune (cryo-neptunian). cold giant; uranus/neptune-like ice giant"><span id="cryo-jovian" class="anc"></span><span id="cryo-neptunian" class="anc"></span>
+  <header><h3>Cryo-Jovian · Cryo-Neptunian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum"><b>30–70 K.</b> Methane clouds. Blue or blue-green, from methane absorbing red light.</p>
+  <dl><dt>Science term</dt><dd>cold giant; Uranus/Neptune-like ice giant</dd><dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Icy"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz" title="Habitable zone: would change type"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy on" title="Icy: most likely"></i></span> The outer system.</dd><dt>Examples</dt><dd>Uranus and Neptune (Cryo-Neptunian).</dd></dl>
+</article><article class="ty" id="psychro" data-q="psychro jovian neptunian giant ammonia clouds beige, tan, brown and white bands, storms and ovals. jupiter and saturn (psychro-jovian). cold jupiter; sudarsky class i"><span id="psychro-jovian" class="anc"></span><span id="psychro-neptunian" class="anc"></span>
+  <header><h3>Psychro-Jovian · Psychro-Neptunian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum"><b>70–200 K.</b> Ammonia clouds. Beige, tan, brown and white bands, storms and ovals.</p>
+  <dl><dt>Science term</dt><dd>cold Jupiter; Sudarsky class I</dd><dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Icy, Cool"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz" title="Habitable zone: would change type"></i><i class="z cool on" title="Cool: most likely"></i><i class="z icy on" title="Icy: most likely"></i></span> Beyond the snow line.</dd><dt>Examples</dt><dd>Jupiter and Saturn (Psychro-Jovian).</dd></dl>
+</article><article class="ty" id="meso" data-q="meso jovian neptunian giant water clouds bright white, with deep cloud bands. hd 28185 b and other warm giants. temperate giant; sudarsky class ii"><span id="meso-jovian" class="anc"></span><span id="meso-neptunian" class="anc"></span>
+  <header><h3>Meso-Jovian · Meso-Neptunian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum"><b>200–350 K.</b> Water clouds. Bright white, with deep cloud bands.</p>
+  <dl><dt>Science term</dt><dd>temperate giant; Sudarsky class II</dd><dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Habitable zone"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> Roughly the habitable zone. A giant here can host Earth-sized moons in the habitable zone.</dd><dt>Examples</dt><dd>HD 28185 b and other warm giants.</dd></dl>
+</article><article class="ty" id="zesto" data-q="zesto jovian neptunian giant clouds of salts and sulphides; photochemical haze brown, red, grey or green; muddy hazes. many warm jupiters. warm jupiter / warm neptune; sudarsky class iii"><span id="zesto-jovian" class="anc"></span><span id="zesto-neptunian" class="anc"></span>
+  <header><h3>Zesto-Jovian · Zesto-Neptunian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum"><b>350–800 K.</b> Clouds of salts and sulphides; photochemical haze. Brown, red, grey or green; muddy hazes.</p>
+  <dl><dt>Science term</dt><dd>warm Jupiter / warm Neptune; Sudarsky class III</dd><dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Hot"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot on" title="Hot: most likely"></i><i class="z hz" title="Habitable zone: would change type"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> Inside the habitable zone, outside the scorched zone.</dd><dt>Examples</dt><dd>Many warm Jupiters.</dd></dl>
+</article><article class="ty" id="pyro" data-q="pyro jovian neptunian giant silicate and iron clouds dark blue or grey on the dayside; glows dull red on the night side. metal rain. hd 189733 b, hd 209458 b. hot jupiter / hot neptune; sudarsky class iv"><span id="pyro-jovian" class="anc"></span><span id="pyro-neptunian" class="anc"></span>
+  <header><h3>Pyro-Jovian · Pyro-Neptunian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum"><b>800–2100 K.</b> Silicate and iron clouds. Dark blue or grey on the dayside; glows dull red on the night side. Metal rain.</p>
+  <dl><dt>Science term</dt><dd>hot Jupiter / hot Neptune; Sudarsky class IV</dd><dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Scorched"><i class="z scorch on" title="Scorched: most likely"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz" title="Habitable zone: would change type"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> Close to the star: the classic hot Jupiter.</dd><dt>Examples</dt><dd>HD 189733 b, HD 209458 b.</dd></dl>
+</article><article class="ty" id="cali" data-q="cali jovian neptunian giant too hot for clouds cloudless, dark, glowing; its upper atmosphere evaporates into space. wasp-12 b, kelt-9 b. ultra-hot jupiter; sudarsky class v"><span id="cali-jovian" class="anc"></span><span id="cali-neptunian" class="anc"></span>
+  <header><h3>Cali-Jovian · Cali-Neptunian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum"><b>above 2100 K.</b> Too hot for clouds. Cloudless, dark, glowing; its upper atmosphere evaporates into space.</p>
+  <dl><dt>Science term</dt><dd>ultra-hot Jupiter; Sudarsky class V</dd><dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Scorched"><i class="z scorch on" title="Scorched: most likely"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz" title="Habitable zone: would change type"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> Skimming the star.</dd><dt>Examples</dt><dd>WASP-12 b, KELT-9 b.</dd></dl>
+</article></section><section class="cls" id="class-exotic"><h2>Exotic</h2><p class="cnote">Rare end-states and outliers.</p><article class="ty" id="chthonian" data-q="chthonian exotic the stripped core of a former giant planet whose gas envelope boiled away near its star. dense, dark, hot rock or metal; a faint tail of escaping gas. toi-849b is a candidate. chthonian planet (the same word)">
+  <header><h3>Chthonian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">The stripped core of a former giant planet whose gas envelope boiled away near its star.</p>
+  <dl>
+    <dt>Science term</dt><dd>chthonian planet (the same word)</dd>
+    <dt>Looks like</dt><dd>Dense, dark, hot rock or metal; a faint tail of escaping gas.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Scorched. Also possible: Hot"><i class="z scorch on" title="Scorched: most likely"></i><i class="z hot maybe" title="Hot: possible"></i><i class="z hz" title="Habitable zone: would change type"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> scorched; also turns up hot</dd>
+    <dt>How often</dt><dd>rare</dd>
+    <dt>Examples</dt><dd>TOI-849b is a candidate.</dd>
+  </dl>
+</article><article class="ty" id="hyperbarian" data-q="hyperbarian exotic an extremely dense world of giant-planet mass, with little gas: almost all core. small for its mass, heavy gravity. candidates include kepler-145b and toi-1853b. ultra-dense giant-mass planet">
+  <header><h3>HyperBarian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">An extremely dense world of giant-planet mass, with little gas: almost all core.</p>
+  <dl>
+    <dt>Science term</dt><dd>ultra-dense giant-mass planet</dd>
+    <dt>Looks like</dt><dd>Small for its mass, heavy gravity.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: Scorched, Hot, Habitable zone, Cool, Icy"><i class="z scorch on" title="Scorched: most likely"></i><i class="z hot on" title="Hot: most likely"></i><i class="z hz on" title="Habitable zone: most likely"></i><i class="z cool on" title="Cool: most likely"></i><i class="z icy on" title="Icy: most likely"></i></span> scorched, hot, habitable zone, cool, icy</dd>
+    <dt>How often</dt><dd>very rare</dd>
+    <dt>Examples</dt><dd>Candidates include Kepler-145b and TOI-1853b.</dd>
+  </dl>
+</article><article class="ty" id="stevensonian" data-q="stevensonian exotic a rogue planet ejected from its system, drifting in the dark between the stars. a thick hydrogen atmosphere can keep its surface warm enough for liquid water. dark; a faint infrared glow. wise 0855−0714 is a cold rogue world; ots 44 and others are free-floating. rogue planet; free-floating planetary-mass object">
+  <header><h3>Stevensonian</h3><span class="src">NoLWoCS</span></header>
+  <p class="sum">A rogue planet ejected from its system, drifting in the dark between the stars. A thick hydrogen atmosphere can keep its surface warm enough for liquid water.</p>
+  <dl>
+    <dt>Science term</dt><dd>rogue planet; free-floating planetary-mass object</dd>
+    <dt>Looks like</dt><dd>Dark; a faint infrared glow.</dd>
+    <dt>Found</dt><dd><span class="zbar" role="img" aria-label="Most likely: none"><i class="z scorch" title="Scorched: would change type"></i><i class="z hot" title="Hot: would change type"></i><i class="z hz" title="Habitable zone: would change type"></i><i class="z cool" title="Cool: would change type"></i><i class="z icy" title="Icy: would change type"></i></span> between the stars</dd>
+    <dt>How often</dt><dd>not generated (no star)</dd>
+    <dt>Examples</dt><dd>WISE 0855−0714 is a cold rogue world; OTS 44 and others are free-floating.</dd>
+  </dl>
+</article></section><section class="cls" id="class-modifiers"><h2>Modifiers</h2><p class="cnote">Added to a world's type, in the starmap's Modifiers field. The starmap sets Skolian and Ikarian on its own.</p><article class="ty" id="skolian" data-q="skolian modifier axial tilt between 45° and 135°: the world rolls on its side, so each pole has a long summer of constant daylight and a long winter of constant dark. high-obliquity planet"><header><h3>Skolian</h3><span class="src">NoLWoCS</span></header><p class="sum">Axial tilt between 45° and 135°: the world rolls on its side, so each pole has a long summer of constant daylight and a long winter of constant dark.</p><dl><dt>Science term</dt><dd>high-obliquity planet</dd><dt>Examples</dt><dd>Uranus.</dd></dl></article><article class="ty" id="ikarian" data-q="ikarian modifier eccentricity above 0.35: the world swings close to its star and far out again each orbit, with extreme seasons. eccentric planet"><header><h3>Ikarian</h3><span class="src">NoLWoCS</span></header><p class="sum">Eccentricity above 0.35: the world swings close to its star and far out again each orbit, with extreme seasons.</p><dl><dt>Science term</dt><dd>eccentric planet</dd><dt>Examples</dt><dd>HD 80606 b; many eccentric giants.</dd></dl></article><article class="ty" id="janusian" data-q="janusian modifier shares a co-orbital configuration with another body: in the starmap, a planet set to share another planet&#x27;s orbit at l4 or l5 (named like &quot;tau ceti iii-l4&quot;). co-orbital planet; trojan planet"><header><h3>Janusian</h3><span class="src">NoLWoCS</span></header><p class="sum">Shares a co-orbital configuration with another body: in the starmap, a planet set to share another planet&#x27;s orbit at L4 or L5 (named like &quot;Tau Ceti III-L4&quot;).</p><dl><dt>Science term</dt><dd>co-orbital planet; trojan planet</dd><dt>Examples</dt><dd>Saturn&#x27;s moons Janus and Epimetheus (horseshoe orbit).</dd></dl></article><article class="ty" id="promethean" data-q="promethean modifier tidally locked 1:1: the world turns once per orbit, keeping one face to its star (or a moon to its planet) forever. a permanent dayside, nightside and twilight ring. named for prometheus, chained in place under the sun. not part of the original scheme: this setting&#x27;s own term. tidally locked (synchronous rotation); &quot;eyeball&quot; planet"><header><h3>Promethean</h3><span class="src">Setting</span></header><p class="sum">Tidally locked 1:1: the world turns once per orbit, keeping one face to its star (or a moon to its planet) forever. A permanent dayside, nightside and twilight ring. Named for Prometheus, chained in place under the sun. Not part of the original scheme: this setting&#x27;s own term.</p><dl><dt>Science term</dt><dd>tidally locked (synchronous rotation); &quot;eyeball&quot; planet</dd><dt>Examples</dt><dd>Earth&#x27;s Moon; most planets close to red dwarfs, such as Proxima Centauri b.</dd></dl></article><article class="ty" id="ixionian" data-q="ixionian modifier tidally locked into a spin-orbit resonance other than 1:1, usually because its orbit is eccentric: it turns a fixed whole number of times for every few orbits (3:2, 2:1). days are long and the same longitudes face the star at every closest approach. named for ixion, bound to an ever-turning wheel of fire. not part of the original scheme: this setting&#x27;s own term. spin-orbit resonance (non-synchronous tidal lock)"><header><h3>Ixionian</h3><span class="src">Setting</span></header><p class="sum">Tidally locked into a spin-orbit resonance other than 1:1, usually because its orbit is eccentric: it turns a fixed whole number of times for every few orbits (3:2, 2:1). Days are long and the same longitudes face the star at every closest approach. Named for Ixion, bound to an ever-turning wheel of fire. Not part of the original scheme: this setting&#x27;s own term.</p><dl><dt>Science term</dt><dd>spin-orbit resonance (non-synchronous tidal lock)</dd><dt>Examples</dt><dd>Mercury (3:2: three turns every two orbits, a solar day of 176 Earth days).</dd></dl></article></section><section class="cls" id="class-transitions"><h2>If a world moves</h2><p class="cnote">Migration, scattering and capture can leave a world stably orbiting where its type cannot last. Read across: ● where the type is most likely found, ○ where it can turn up and keep its type, and → the type it becomes if it settles anywhere else (hover for why). Giants simply take the temperature band of their new orbit, and a rogue planet captured into orbit takes whatever type its mass and new zone dictate.</p>
+<div class="tw"><table class="tm"><thead><tr><th scope="col">Type</th><th scope="col"><i class="z scorch on"></i> Scorched</th><th scope="col"><i class="z hot on"></i> Hot</th><th scope="col"><i class="z hz on"></i> Habitable zone</th><th scope="col"><i class="z cool on"></i> Cool</th><th scope="col"><i class="z icy on"></i> Icy</th></tr></thead><tbody><tr class="grp"><th colspan="6">Asteroidal</th></tr><tr><th scope="row"><a href="#rocky-s-type">Rocky (S-type)</a></th><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td></tr><tr><th scope="row"><a href="#carbonaceous-c-type">Carbonaceous (C-type)</a></th><td><a class="m to" href="#rocky-s-type" title="volatiles bake out">→ Rocky (S-type)</a></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td></tr><tr><th scope="row"><a href="#metallic-m-type">Metallic (M-type)</a></th><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td></tr><tr><th scope="row"><a href="#cometary">Cometary</a></th><td><a class="m to" href="#rocky-s-type" title="volatiles bake out">→ Rocky (S-type)</a></td><td><a class="m to" href="#carbonaceous-c-type" title="ices sublimate, leaving a dark crust">→ Carbonaceous (C-type)</a></td><td><a class="m to" href="#carbonaceous-c-type" title="ices sublimate, leaving a dark crust">→ Carbonaceous (C-type)</a></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m on" title="most likely here">●</span></td></tr><tr><th scope="row"><a href="#icy-planetoid">Icy planetoid</a></th><td><a class="m to" href="#rocky-s-type" title="volatiles bake out">→ Rocky (S-type)</a></td><td><a class="m to" href="#carbonaceous-c-type" title="ices sublimate, leaving a dark crust">→ Carbonaceous (C-type)</a></td><td><a class="m to" href="#carbonaceous-c-type" title="ices sublimate, leaving a dark crust">→ Carbonaceous (C-type)</a></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m on" title="most likely here">●</span></td></tr><tr class="grp"><th colspan="6">Terrestrial</th></tr><tr><th scope="row"><a href="#hermian">Hermian</a></th><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td></tr><tr><th scope="row"><a href="#ferrinian">Ferrinian</a></th><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td></tr><tr><th scope="row"><a href="#selenian">Selenian</a></th><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td></tr><tr><th scope="row"><a href="#adamaean">Adamaean</a></th><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td></tr><tr><th scope="row"><a href="#cytherean">Cytherean</a></th><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#areantundral" title="air and water freeze out">→ AreanTundral</a></td><td><a class="m to" href="#areantundral" title="air and water freeze out">→ AreanTundral</a></td></tr><tr><th scope="row"><a href="#pelacytherean">PelaCytherean</a></th><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><a class="m to" href="#pelagelidic" title="the ocean freezes over">→ PelaGelidic</a></td><td><a class="m to" href="#pelagelidic" title="the ocean freezes over">→ PelaGelidic</a></td></tr><tr><th scope="row"><a href="#vitriolic">Vitriolic</a></th><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#areantundral" title="air and water freeze out">→ AreanTundral</a></td><td><a class="m to" href="#areantundral" title="air and water freeze out">→ AreanTundral</a></td></tr><tr><th scope="row"><a href="#hephaestian">Hephaestian</a></th><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td></tr><tr><th scope="row"><a href="#vesperian">Vesperian</a></th><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><a class="m to" href="#areantundral" title="air and water freeze out">→ AreanTundral</a></td></tr><tr><th scope="row"><a href="#euarean">EuArean</a></th><td><a class="m to" href="#hermian" title="the atmosphere is stripped away">→ Hermian</a></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#areantundral" title="air and water freeze out">→ AreanTundral</a></td></tr><tr><th scope="row"><a href="#eoarean">EoArean</a></th><td><a class="m to" href="#hermian" title="the atmosphere is stripped away">→ Hermian</a></td><td><a class="m to" href="#areanxeric" title="surface water boils off">→ AreanXeric</a></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><a class="m to" href="#areantundral" title="air and water freeze out">→ AreanTundral</a></td></tr><tr><th scope="row"><a href="#areanlacustric">AreanLacustric</a></th><td><a class="m to" href="#hermian" title="the atmosphere is stripped away">→ Hermian</a></td><td><a class="m to" href="#areanxeric" title="surface water boils off">→ AreanXeric</a></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#areantundral" title="air and water freeze out">→ AreanTundral</a></td><td><a class="m to" href="#areantundral" title="air and water freeze out">→ AreanTundral</a></td></tr><tr><th scope="row"><a href="#areanxeric">AreanXeric</a></th><td><a class="m to" href="#hermian" title="the atmosphere is stripped away">→ Hermian</a></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#euarean" title="the remaining water freezes or escapes">→ EuArean</a></td><td><a class="m to" href="#areantundral" title="air and water freeze out">→ AreanTundral</a></td></tr><tr><th scope="row"><a href="#areantundral">AreanTundral</a></th><td><a class="m to" href="#hermian" title="the atmosphere is stripped away">→ Hermian</a></td><td><a class="m to" href="#areanxeric" title="surface water boils off">→ AreanXeric</a></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td></tr><tr><th scope="row"><a href="#eogaian">EoGaian</a></th><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#gaiantundral" title="glaciers spread toward the equator">→ GaianTundral</a></td><td><a class="m to" href="#lithicgelidian" title="everything freezes">→ LithicGelidian</a></td></tr><tr><th scope="row"><a href="#mesogaian">MesoGaian</a></th><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#gaiantundral" title="glaciers spread toward the equator">→ GaianTundral</a></td><td><a class="m to" href="#lithicgelidian" title="everything freezes">→ LithicGelidian</a></td></tr><tr><th scope="row"><a href="#eugaian">EuGaian</a></th><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#gaiantundral" title="glaciers spread toward the equator">→ GaianTundral</a></td><td><a class="m to" href="#lithicgelidian" title="everything freezes">→ LithicGelidian</a></td></tr><tr><th scope="row"><a href="#gaiantundral">GaianTundral</a></th><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><a class="m to" href="#lithicgelidian" title="everything freezes">→ LithicGelidian</a></td></tr><tr><th scope="row"><a href="#campian">Campian</a></th><td><a class="m to" href="#hermian" title="the atmosphere is stripped away">→ Hermian</a></td><td><a class="m to" href="#xeric" title="seas shrink to a few basins">→ Xeric</a></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#gaiantundral" title="glaciers spread toward the equator">→ GaianTundral</a></td><td><a class="m to" href="#lithicgelidian" title="everything freezes">→ LithicGelidian</a></td></tr><tr><th scope="row"><a href="#paludial">Paludial</a></th><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#gaiantundral" title="glaciers spread toward the equator">→ GaianTundral</a></td><td><a class="m to" href="#pelagelidic" title="the ocean freezes over">→ PelaGelidic</a></td></tr><tr><th scope="row"><a href="#lacustric">Lacustric</a></th><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#gaiantundral" title="glaciers spread toward the equator">→ GaianTundral</a></td><td><a class="m to" href="#pelagelidic" title="the ocean freezes over">→ PelaGelidic</a></td></tr><tr><th scope="row"><a href="#xeric">Xeric</a></th><td><a class="m to" href="#hermian" title="the atmosphere is stripped away">→ Hermian</a></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#areantundral" title="air and water freeze out">→ AreanTundral</a></td><td><a class="m to" href="#areantundral" title="air and water freeze out">→ AreanTundral</a></td></tr><tr><th scope="row"><a href="#hyperxeric">HyperXeric</a></th><td><a class="m to" href="#hermian" title="the atmosphere is stripped away">→ Hermian</a></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#areantundral" title="air and water freeze out">→ AreanTundral</a></td><td><a class="m to" href="#areantundral" title="air and water freeze out">→ AreanTundral</a></td></tr><tr><th scope="row"><a href="#pelagic">Pelagic</a></th><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><a class="m to" href="#pelacytherean" title="the ocean boils but stays liquid under the steam">→ PelaCytherean</a></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#tundralpelagic" title="the ocean partly freezes">→ TundralPelagic</a></td><td><a class="m to" href="#pelagelidic" title="the ocean freezes over">→ PelaGelidic</a></td></tr><tr><th scope="row"><a href="#eupelagic">EuPelagic</a></th><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><a class="m to" href="#pelacytherean" title="the ocean boils but stays liquid under the steam">→ PelaCytherean</a></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#tundralpelagic" title="the ocean partly freezes">→ TundralPelagic</a></td><td><a class="m to" href="#pelagelidic" title="the ocean freezes over">→ PelaGelidic</a></td></tr><tr><th scope="row"><a href="#bathypelagic">BathyPelagic</a></th><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><a class="m to" href="#pelacytherean" title="the ocean boils but stays liquid under the steam">→ PelaCytherean</a></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#pelagelidic" title="the ocean freezes over">→ PelaGelidic</a></td></tr><tr><th scope="row"><a href="#tundralpelagic">TundralPelagic</a></th><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><a class="m to" href="#pelacytherean" title="the ocean boils but stays liquid under the steam">→ PelaCytherean</a></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><a class="m to" href="#pelagelidic" title="the ocean freezes over">→ PelaGelidic</a></td></tr><tr><th scope="row"><a href="#pelagelidic">PelaGelidic</a></th><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><a class="m to" href="#pelacytherean" title="the ocean boils but stays liquid under the steam">→ PelaCytherean</a></td><td><a class="m to" href="#pelagic" title="the ice shell melts">→ Pelagic</a></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td></tr><tr><th scope="row"><a href="#chlorogaian">Chlorogaian</a></th><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#gaiantundral" title="glaciers spread toward the equator">→ GaianTundral</a></td><td><a class="m to" href="#lithicgelidian" title="everything freezes">→ LithicGelidian</a></td></tr><tr><th scope="row"><a href="#barogaian">BaroGaian</a></th><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#gaiantundral" title="glaciers spread toward the equator">→ GaianTundral</a></td><td><a class="m to" href="#pelagelidic" title="the ocean freezes over">→ PelaGelidic</a></td></tr><tr><th scope="row"><a href="#postgaian">PostGaian</a></th><td><a class="m to" href="#hermian" title="the atmosphere is stripped away">→ Hermian</a></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#areantundral" title="air and water freeze out">→ AreanTundral</a></td><td><a class="m to" href="#lithicgelidian" title="everything freezes">→ LithicGelidian</a></td></tr><tr><th scope="row"><a href="#lithicgelidian">LithicGelidian</a></th><td><a class="m to" href="#hermian" title="the atmosphere is stripped away">→ Hermian</a></td><td><a class="m to" href="#selenian" title="ices and air are lost">→ Selenian</a></td><td><a class="m to" href="#selenian" title="ices and air are lost">→ Selenian</a></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td></tr><tr><th scope="row"><a href="#europan">Europan</a></th><td><a class="m to" href="#selenian" title="ices and air are lost">→ Selenian</a></td><td><a class="m to" href="#pelacytherean" title="the ocean boils but stays liquid under the steam">→ PelaCytherean</a></td><td><a class="m to" href="#bathypelagic" title="the ice melts into a deep ocean">→ BathyPelagic</a></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m on" title="most likely here">●</span></td></tr><tr><th scope="row"><a href="#titanian">Titanian</a></th><td><a class="m to" href="#hermian" title="the atmosphere is stripped away">→ Hermian</a></td><td><a class="m to" href="#selenian" title="ices and air are lost">→ Selenian</a></td><td><a class="m to" href="#selenian" title="ices and air are lost">→ Selenian</a></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td></tr><tr><th scope="row"><a href="#ymirian">Ymirian</a></th><td><a class="m to" href="#hermian" title="the atmosphere is stripped away">→ Hermian</a></td><td><a class="m to" href="#selenian" title="ices and air are lost">→ Selenian</a></td><td><a class="m to" href="#selenian" title="ices and air are lost">→ Selenian</a></td><td><a class="m to" href="#lithicgelidian" title="everything freezes">→ LithicGelidian</a></td><td><span class="m on" title="most likely here">●</span></td></tr><tr><th scope="row"><a href="#amunian">Amunian</a></th><td><a class="m to" href="#hermian" title="the atmosphere is stripped away">→ Hermian</a></td><td><a class="m to" href="#cytherean" title="water boils into a runaway greenhouse">→ Cytherean</a></td><td><a class="m to" href="#bathypelagic" title="the ice melts into a deep ocean">→ BathyPelagic</a></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td></tr><tr class="grp"><th colspan="6">Superterrestrial</th></tr><tr><th scope="row"><a href="#superhermian">SuperHermian</a></th><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td></tr><tr><th scope="row"><a href="#superferrinian">SuperFerrinian</a></th><td><span class="m on" title="most likely here">●</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td></tr><tr><th scope="row"><a href="#supercytherean">SuperCytherean</a></th><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#superarean" title="the thick atmosphere condenses">→ SuperArean</a></td><td><a class="m to" href="#superarean" title="the thick atmosphere condenses">→ SuperArean</a></td></tr><tr><th scope="row"><a href="#superarean">SuperArean</a></th><td><a class="m to" href="#superhermian" title="the surface hardens and the air is lost">→ SuperHermian</a></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td></tr><tr><th scope="row"><a href="#supergaian">SuperGaian</a></th><td><a class="m to" href="#supercytherean" title="a runaway greenhouse sets in">→ SuperCytherean</a></td><td><a class="m to" href="#supercytherean" title="a runaway greenhouse sets in">→ SuperCytherean</a></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#superarean" title="the thick atmosphere condenses">→ SuperArean</a></td><td><a class="m to" href="#supereuropan" title="the ocean freezes under a thick ice shell">→ SuperEuropan</a></td></tr><tr><th scope="row"><a href="#pyrothalassic">Pyrothalassic</a></th><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#superhermian" title="the surface hardens and the air is lost">→ SuperHermian</a></td><td><a class="m to" href="#superhermian" title="the surface hardens and the air is lost">→ SuperHermian</a></td><td><a class="m to" href="#superhermian" title="the surface hardens and the air is lost">→ SuperHermian</a></td></tr><tr><th scope="row"><a href="#pyrohydrothalassic">Pyrohydrothalassic</a></th><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#panthalassic" title="steam condenses into a deep ocean">→ Panthalassic</a></td><td><a class="m to" href="#panthalassic" title="steam condenses into a deep ocean">→ Panthalassic</a></td><td><a class="m to" href="#supereuropan" title="the ocean freezes under a thick ice shell">→ SuperEuropan</a></td></tr><tr><th scope="row"><a href="#panthalassic">Panthalassic</a></th><td><a class="m to" href="#pyrohydrothalassic" title="the ocean turns to supercritical steam">→ Pyrohydrothalassic</a></td><td><a class="m to" href="#pyrohydrothalassic" title="the ocean turns to supercritical steam">→ Pyrohydrothalassic</a></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#supereuropan" title="the ocean freezes under a thick ice shell">→ SuperEuropan</a></td></tr><tr><th scope="row"><a href="#supereuropan">SuperEuropan</a></th><td><a class="m to" href="#pyrohydrothalassic" title="the ocean turns to supercritical steam">→ Pyrohydrothalassic</a></td><td><a class="m to" href="#pyrohydrothalassic" title="the ocean turns to supercritical steam">→ Pyrohydrothalassic</a></td><td><a class="m to" href="#panthalassic" title="steam condenses into a deep ocean">→ Panthalassic</a></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td></tr><tr><th scope="row"><a href="#superymirian">SuperYmirian</a></th><td><a class="m to" href="#pyrohydrothalassic" title="the ocean turns to supercritical steam">→ Pyrohydrothalassic</a></td><td><a class="m to" href="#pyrohydrothalassic" title="the ocean turns to supercritical steam">→ Pyrohydrothalassic</a></td><td><a class="m to" href="#panthalassic" title="steam condenses into a deep ocean">→ Panthalassic</a></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><span class="m on" title="most likely here">●</span></td></tr><tr><th scope="row"><a href="#gas-dwarf">Gas dwarf</a></th><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td></tr><tr><th scope="row"><a href="#hycean">Hycean</a></th><td><a class="m to" href="#pyrohydrothalassic" title="the ocean turns to supercritical steam">→ Pyrohydrothalassic</a></td><td><a class="m to" href="#pyrohydrothalassic" title="the ocean turns to supercritical steam">→ Pyrohydrothalassic</a></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#gas-dwarf" title="the ocean freezes beneath the envelope">→ Gas dwarf</a></td></tr><tr><th scope="row"><a href="#nebulous">Nebulous</a></th><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><a class="m to" href="#gas-dwarf" title="the ocean freezes beneath the envelope">→ Gas dwarf</a></td><td><a class="m to" href="#gas-dwarf" title="the ocean freezes beneath the envelope">→ Gas dwarf</a></td></tr><tr><th scope="row"><a href="#super-puff">Super-puff</a></th><td><a class="m to" href="#chthonian" title="the envelope boils away">→ Chthonian</a></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td></tr><tr class="grp"><th colspan="6">Exotic</th></tr><tr><th scope="row"><a href="#chthonian">Chthonian</a></th><td><span class="m on" title="most likely here">●</span></td><td><span class="m maybe" title="can turn up here and keep its type">○</span></td><td><a class="m to" href="#superhermian" title="the surface hardens and the air is lost">→ SuperHermian</a></td><td><a class="m to" href="#superhermian" title="the surface hardens and the air is lost">→ SuperHermian</a></td><td><a class="m to" href="#superhermian" title="the surface hardens and the air is lost">→ SuperHermian</a></td></tr><tr><th scope="row"><a href="#hyperbarian">HyperBarian</a></th><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td><td><span class="m on" title="most likely here">●</span></td></tr></tbody></table></div></section><section class="cls" id="class-evolution"><h2>How worlds age</h2><p class="cnote">Types are not permanent. Stars brighten through their lives, then swell into red giants and shrink to white dwarfs; planets lose heat, air and water. These are the common paths, left to right in time.</p><div class="ev"><h3>Earth-like world, Sun-like star, habitable zone</h3><ol><li><a href="#eogaian">EoGaian</a><span>first ~0.5 Gyr</span></li><li><a href="#mesogaian">MesoGaian</a><span>~0.5–2 Gyr: microbial life</span></li><li><a href="#eugaian">EuGaian</a><span>~2–5 Gyr: oxygen, complex life</span></li><li><a href="#postgaian">PostGaian</a><span>star ~10% brighter (~1 Gyr from Earth now)</span></li><li><a href="#xeric">Xeric</a><span>oceans retreating</span></li><li><a href="#cytherean">Cytherean</a><span>oceans gone, runaway greenhouse</span></li><li><a href="#hermian">Hermian</a><span>red giant: stripped or swallowed</span></li></ol><p>The Sun brightens about 10% per billion years, so every habitable-zone world drifts toward the hot edge.</p></div><div class="ev"><h3>Venus path: hot side of the habitable zone</h3><ol><li><a href="#pelagic">Pelagic</a><span>young, possibly wet</span></li><li><a href="#pelacytherean">PelaCytherean</a><span>moist greenhouse</span></li><li><a href="#cytherean">Cytherean</a><span>oceans lost</span></li></ol><p>Venus may have had oceans for its first few hundred million years.</p></div><div class="ev"><h3>Mars path: small world, habitable zone or just beyond</h3><ol><li><a href="#eoarean">EoArean</a><span>young, thick air, water</span></li><li><a href="#areanlacustric">AreanLacustric</a><span>lakes and seas</span></li><li><a href="#euarean">EuArean</a><span>core cools, magnetic field fails, air escapes</span></li><li><a href="#areantundral">AreanTundral</a><span>water locked as ground ice</span></li><li><a href="#areanxeric">AreanXeric</a><span>star brightens</span></li></ol><p>Small worlds lose their atmospheres fastest: low gravity, and their cores cool and stop shielding them sooner.</p></div><div class="ev"><h3>Cold world at the outer edge of the habitable zone</h3><ol><li><a href="#gaiantundral">GaianTundral</a><span>ice age at formation</span></li><li><a href="#eogaian">EoGaian</a><span>star brightens: thaw</span></li><li><a href="#eugaian">EuGaian</a><span>then as the Earth-like path</span></li></ol><p>The habitable zone moves outward as the star brightens, sweeping over worlds that formed too cold.</p></div><div class="ev"><h3>Red dwarf habitable zone</h3><ol><li><a href="#pelacytherean">PelaCytherean</a><span>star&#x27;s bright youth (up to ~1 Gyr): water boiled off</span></li><li><a href="#hyperxeric">HyperXeric</a><span>desiccated survivor</span></li><li><a href="#euarean">EuArean</a><span>flares strip the air</span></li><li><a href="#vesperian">Vesperian</a><span>locked face to the star</span></li></ol><p>Red dwarfs are far brighter in their first few hundred million years, then flare for billions more. Worlds that keep enough water can stay Pelagic or Vesperian for tens of billions of years.</p></div><div class="ev"><h3>Sub-Neptune close to its star</h3><ol><li><a href="#super-puff">Super-puff</a><span>young, puffy envelope</span></li><li><a href="#gas-dwarf">Gas dwarf</a><span>settled</span></li><li><a href="#nebulous">Nebulous</a><span>hydrogen escapes, helium stays</span></li><li><a href="#superhermian">SuperHermian</a><span>envelope gone: the &quot;radius valley&quot;</span></li><li><a href="#pyrothalassic">Pyrothalassic</a><span>if the core is still molten</span></li></ol><p>Starlight boils away light gases. Survey statistics show the gap between sub-Neptunes and stripped super-Earths that this leaves.</p></div><div class="ev"><h3>Hot Jupiter</h3><ol><li><a href="#pyro">Pyro-Jovian</a><span>migrates inward</span></li><li><a href="#cali">Cali-Jovian</a><span>closest orbits: inflated, evaporating</span></li><li><a href="#chthonian">Chthonian</a><span>envelope gone</span></li></ol><p>Only the closest, lightest giants lose their whole envelope; most hot Jupiters keep theirs for the star&#x27;s lifetime.</p></div><div class="ev"><h3>Giant planet cooling</h3><ol><li><a href="#zesto">Zesto-Jovian</a><span>first ~100 Myr, glowing from formation heat</span></li><li><a href="#psychro">Psychro-Jovian</a><span>cools over billions of years</span></li><li><a href="#cryo">Cryo-Jovian</a><span>far out, very old</span></li></ol><p>A giant&#x27;s band reflects its own heat as well as its star&#x27;s. Young giants are warmer than their orbit alone would make them.</p></div><div class="ev"><h3>Tidally heated moon</h3><ol><li><a href="#hephaestian">Hephaestian</a><span>eccentric orbit, strong tides</span></li><li><a href="#europan">Europan</a><span>tides weaken as the orbit circularises</span></li><li><a href="#lithicgelidian">LithicGelidian</a><span>heat runs out, ocean freezes</span></li></ol><p>Resonances between moons can keep tidal heating going for billions of years (Io, Europa and Ganymede).</p></div><div class="ev"><h3>Icy world when its star becomes a red giant</h3><ol><li><a href="#ymirian">Ymirian</a><span>main sequence</span></li><li><a href="#bathypelagic">BathyPelagic</a><span>red giant: the habitable zone sweeps outward</span></li><li><a href="#titanian">Titanian</a><span>thick atmosphere from thawed ices</span></li><li><a href="#pelagelidic">PelaGelidic</a><span>white dwarf: refreezes</span></li></ol><p>A red giant warms the outer system for a few hundred million years: a late, temporary habitable zone among the ice worlds.</p></div><div class="ev"><h3>Survivor around a white dwarf</h3><ol><li><a href="#hermian">Hermian</a><span>inner world after the red giant</span></li><li><a href="#selenian">Selenian</a><span>white dwarf cools</span></li><li><a href="#vesperian">Vesperian</a><span>a water-rich world scattered close in</span></li></ol><p>A white dwarf&#x27;s habitable zone is tiny (around 0.01 AU) and shrinks as it cools. Worlds there are tidally locked.</p></div></section>
+    <p class="none" id="empty" hidden>No type matches that search.</p>
+    <footer>Type names and definitions follow the <a href="https://orionsarm.com/eg-article/491c78b89879b" target="_blank" rel="noopener">Orion's Arm NoLWoCS</a>, described here in our own words. Survey categories (gas dwarf, hycean, super-puff) and examples are from published exoplanet research; many examples are candidates, not confirmed types.</footer>
+  </main>
+</div>
+<script>
+(()=>{
+const arts=[...document.querySelectorAll('.ty')],links=[...document.querySelectorAll('.ng a[data-n]')],q=document.getElementById('q');
+// the starmap links here with #type-name: highlight and scroll to that entry (giant types share one entry per temperature band)
+function go(){const h=decodeURIComponent(location.hash.slice(1));if(!h)return;let el=document.getElementById(h);if(!el)return;const card=el.closest('.ty')||el;
+  arts.forEach(a=>a.classList.remove('hit'));if(card.classList.contains('ty'))card.classList.add('hit');card.scrollIntoView({block:'start'});mark(card.id);}
+function mark(id){links.forEach(a=>a.classList.toggle('cur',a.dataset.n===id));}
+addEventListener('hashchange',go);go();
+q.addEventListener('input',()=>{const s=q.value.trim().toLowerCase();let n=0;arts.forEach(a=>{const on=!s||a.dataset.q.includes(s);a.hidden=!on;if(on)n++;});
+  document.querySelectorAll('.cls').forEach(c=>{c.hidden=!!s&&!c.querySelector('.ty:not([hidden])');});document.getElementById('empty').hidden=n>0;
+  links.forEach(a=>{const t=document.getElementById(a.dataset.n);a.hidden=!!s&&(!t||t.hidden);});});
+})();
+</script>
+
+<p style="text-align:center;margin:24px 0"><a href="../" style="color:inherit">← Of the Waters</a></p>
+</body></html>
