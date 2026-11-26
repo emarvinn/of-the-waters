@@ -34,14 +34,14 @@ def inject(html,data):
 # ---- starmap
 data={c:{i:strip_doc(c,i,d) for i,d in load(snap,c).items()} for c in ('systems','bodies','routes','objects')}
 data['__key']='otw-starmap'
+data['__made']=datetime.datetime.now(datetime.timezone.utc).isoformat()
 H=open(os.path.join(SP,'out','jump-era-starmap.html')).read()
 H=H.replace("const WIKI='https://claude.ai/artifact/RH9rUoRCF4UJL8RhX3HTx5';","const WIKI='../world-classes/';")
 assert "../world-classes/" in H
 H=H.replace('<button class="btn pri" id="bSync" hidden>Sync with Obsidian</button>',
-  '<button class="btn pri" id="bSync" hidden>Sync with Obsidian</button><a class="btn" id="otwHome" href="../" style="text-decoration:none">← Of the Waters</a><button class="btn" id="otwReset" hidden title="Undo everything you changed on this map in this browser">Reset to the GM\'s map</button>')
+  '<button class="btn pri" id="bSync" hidden>Sync with Obsidian</button><a class="btn" id="otwHome" href="../" style="text-decoration:none">← Of the Waters</a><button class="btn" id="otwSend" hidden title="Package what you changed so the GM can add it to the campaign map">Send my changes to the GM</button><button class="btn" id="otwReset" hidden title="Undo everything you changed on this map in this browser">Reset to the GM\'s map</button>')
 assert 'otwReset' in H
-H+=('\n<style>#bSync{display:none!important}</style><script>(function(){var b=document.getElementById("otwReset");function s(){b.hidden=!OTW.changed();}s();setInterval(s,1500);'
-    'b.onclick=function(){if(confirm("Reset the map to the GM\'s version? Everything you changed in this browser will be lost."))OTW.reset();};})();</script>')
+H+='\n<style>#bSync{display:none!important}</style>'+open(os.path.join(S,'send.html')).read()
 os.makedirs(os.path.join(repo,'starmap'),exist_ok=True)
 open(os.path.join(repo,'starmap','index.html'),'w').write(page('Starmap',inject(H,data)))
 

@@ -1,0 +1,41 @@
+<style>
+#otwBox{position:fixed;inset:0;z-index:60;background:#000a;display:flex;align-items:flex-start;justify-content:center;padding:max(16px,6vh) 16px;overflow:auto}
+#otwBox[hidden]{display:none}
+#otwBox .in{width:min(560px,100%);background:var(--panel-solid);border:1px solid var(--rule-hi);border-radius:6px;padding:18px;display:flex;flex-direction:column;gap:12px;font-size:14px}
+#otwBox h2{font:700 18px/1.2 var(--f-display);margin:0;letter-spacing:.03em}
+#otwBox p{margin:0;color:var(--dim);line-height:1.5}
+#otwBox label{display:flex;flex-direction:column;gap:4px;font:500 12px/1.2 var(--f-mono);color:var(--dim)}
+#otwBox input,#otwBox textarea{background:var(--void);color:var(--fg);border:1px solid var(--rule-hi);border-radius:4px;padding:8px;font:13px/1.4 var(--f-body)}
+#otwBox textarea{font:11px/1.35 var(--f-mono);min-height:90px;resize:vertical}
+#otwBox ul{margin:0;padding-left:18px;color:var(--fg)}
+#otwBox .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+#otwBox .ok{color:#4fc96f}
+</style>
+<div id="otwBox" hidden role="dialog" aria-modal="true" aria-labelledby="otwT"><div class="in">
+  <h2 id="otwT">Send your changes to the GM</h2>
+  <p>This packages everything you've changed on your copy of the map. Send the code or the file to the GM; they look through it and pick what joins the campaign map.</p>
+  <ul id="otwList"></ul>
+  <label>Your name<input id="otwName" autocomplete="name" placeholder="So the GM knows who it's from"></label>
+  <div class="row"><button class="btn pri" type="button" id="otwCopy">Copy code</button><button class="btn" type="button" id="otwDl">Download file</button><span id="otwMsg" class="ok" aria-live="polite"></span><span style="flex:1"></span><button class="btn" type="button" id="otwClose">Close</button></div>
+  <textarea id="otwCode" readonly hidden aria-label="Code to send"></textarea>
+</div></div>
+<script>
+(function(){
+  var b=document.getElementById('otwReset'),s=document.getElementById('otwSend'),box=document.getElementById('otwBox'),nm=document.getElementById('otwName'),msg=document.getElementById('otwMsg');
+  function upd(){var c=OTW.changed();b.hidden=s.hidden=!c;}upd();setInterval(upd,1500);
+  b.onclick=function(){if(confirm("Reset the map to the GM's version? Everything you changed in this browser will be lost."))OTW.reset();};
+  try{nm.value=localStorage.getItem('otw-name')||'';}catch(e){}
+  nm.oninput=function(){try{localStorage.setItem('otw-name',nm.value);}catch(e){}};
+  var L={systems:['system','systems'],bodies:['planetary system','planetary systems'],objects:['object','objects'],routes:['jump line','jump lines']};
+  function code(){var j=JSON.stringify(OTW.submission(nm.value.trim()));return 'OTW1:'+btoa(unescape(encodeURIComponent(j)));}
+  s.onclick=function(){var n=OTW.count(),li=[];Object.keys(n).forEach(function(c){var l=L[c]||[c,c];li.push('<li>'+n[c]+' '+(n[c]===1?l[0]:l[1])+'</li>');});
+    document.getElementById('otwList').innerHTML=li.join('');msg.textContent='';document.getElementById('otwCode').hidden=true;box.hidden=false;nm.focus();};
+  document.getElementById('otwClose').onclick=function(){box.hidden=true;};
+  box.addEventListener('keydown',function(e){if(e.key==='Escape')box.hidden=true;});
+  document.getElementById('otwCopy').onclick=function(){var c=code(),t=document.getElementById('otwCode');t.value=c;
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(c).then(function(){msg.textContent='Copied. Paste it into a message to the GM.';},function(){t.hidden=false;t.select();msg.textContent='Select the code below and copy it.';});}
+    else{t.hidden=false;t.select();msg.textContent='Select the code below and copy it.';}};
+  document.getElementById('otwDl').onclick=function(){var who=(nm.value.trim()||'player').replace(/[^\w-]+/g,'-').toLowerCase(),blob=new Blob([JSON.stringify(OTW.submission(nm.value.trim()),null,1)],{type:'application/json'});
+    var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='starmap-changes-'+who+'.json';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);msg.textContent='Saved. Send the file to the GM.';};
+})();
+</script>

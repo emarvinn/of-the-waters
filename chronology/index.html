@@ -27,7 +27,10 @@ window.PLAYER_EDITION=true;
   var user={can:function(){return Promise.resolve(!RO);},isOwner:function(){return Promise.resolve(false);},canEdit:function(){return Promise.resolve(false);},
     id:function(){return Promise.resolve('local');},me:function(){return Promise.resolve({id:'local',name:''});},profiles:function(){return Promise.resolve({});}};
   window.claude={use:function(n){return Promise.resolve(n==='db'?db:n==='user'?user:null);}};
-  window.OTW={changed:function(){return Object.keys(over).some(function(c){return Object.keys(over[c]).length;});},
+  window.OTW={submission:function(from){var ch=[];Object.keys(over).forEach(function(c){Object.keys(over[c]).forEach(function(id){ch.push({col:c,id:id,base:(SNAP[c]||{})[id]||null,mine:over[c][id]});});});
+      return {otw:1,map:KEY,from:from||'',made:new Date().toISOString(),snapshot:SNAP.__made||null,changes:ch};},
+    count:function(){var n={};Object.keys(over).forEach(function(c){var k=Object.keys(over[c]).length;if(k)n[c]=k;});return n;},
+    changed:function(){return Object.keys(over).some(function(c){return Object.keys(over[c]).length;});},
     reset:function(){over={};try{localStorage.removeItem(KEY);}catch(e){}location.reload();}};
 })();
 </script>
