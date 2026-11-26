@@ -18,4 +18,10 @@ This repository uses two licenses.
 
 **Campaign content: CC BY-NC 4.0** (`LICENSE-CONTENT.md`). Everything written or made for the campaign: the episodes and their images (`_episodes/`, `assets/episodes/`), the text of the home page, and the setting material inside the starmap and chronology (system names, sectors, notes, planetary systems, objects, jump routes and timeline entries). You may share and adapt it for non-commercial purposes, with credit to the author and a link to the license.
 
-**Third-party material** keeps its own terms: star and exoplanet catalogue data (HYG, the Open Exoplanet Catalogue and others), and world-classification terms drawn from the NoLWoCS scheme. Mothership is a trademark of Tuesday Knight Games; this is an unofficial fan campaign and is not affiliated with or endorsed by them.
+**Third-party material** keeps its own terms and is credited on the site's Credits page:
+
+- Mothership is a trademark of Tuesday Knight Games. This is an unofficial fan campaign, not affiliated with or endorsed by them; the site reproduces none of their text or art and does not use their logo.
+- World-type names follow the Non-Luminary World Classification Scheme of the Orion's Arm Universe Project (https://orionsarm.com), used as terminology with descriptions in our own words. Orion's Arm content belongs to the project and its contributors.
+- Star data from the HYG database (Hipparcos, Yale, Gliese, Gaia); known exoplanets from the Open Exoplanet Catalogue and NASA Exoplanet Archive; three.js (MIT); fonts under the SIL Open Font License.
+
+Never add module or rulebook text, maps or art from Tuesday Knight Games or other publishers here: write episode recaps in your own words.

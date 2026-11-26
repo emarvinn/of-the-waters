@@ -53,6 +53,9 @@ open(os.path.join(repo,'world-classes','index.html'),'w').write(page('World clas
 
 # ---- chronology (read-only)
 tl={i:strip_doc('entries',i,d) for i,d in load(tlsnap,'entries').items()}
+# links to the GM's own project documents mean nothing to players (and name GM files): keep only web links
+for d in tl.values():
+    if isinstance(d.get('links'),list): d['links']=[l for l in d['links'] if str(l.get('href','')).startswith(('http://','https://'))]
 T=open(os.path.join(SP,'timeline','jump-era-chronology.html')).read()
 T=T.replace('<div class="eyebrow">Mothership campaign · setting record</div>','<div class="eyebrow"><a href="../" style="color:inherit">Of the Waters</a> · setting record</div>')
 T+='\n<style>#sync{display:none!important}</style><script>setTimeout(function(){var m=document.getElementById("mode");if(m)m.textContent="Read-only";},400);</script>'
