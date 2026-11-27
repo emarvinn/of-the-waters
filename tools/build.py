@@ -35,6 +35,8 @@ def strip_doc(col,id,doc):
             for b in doc.get(k) or []:
                 if b.get('gmNotes') and b.get('notes'): stripped.append(f"{col}/{id}/{b.get('name') or b.get('id')}"); b['notes']=''
                 b.pop('gmNotes',None)
+                if b.get('profileGM'): stripped.append(f"{col}/{id}/{b.get('name') or b.get('id')} profile"); b['profile']={'hidden':True}
+                b.pop('profileGM',None)
     return doc
 stamp=datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d%H%M')
 def page(title,body):
