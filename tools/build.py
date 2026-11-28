@@ -37,6 +37,11 @@ def strip_doc(col,id,doc):
                 b.pop('gmNotes',None)
                 if b.get('profileGM'): stripped.append(f"{col}/{id}/{b.get('name') or b.get('id')} profile"); b['profile']={'hidden':True}
                 b.pop('profileGM',None)
+                if b.get('hist'):
+                    keep=[e for e in b['hist'] if not e.get('gm')]
+                    if len(keep)<len(b['hist']): stripped.append(f"{col}/{id}/{b.get('name') or b.get('id')} events ({len(b['hist'])-len(keep)})")
+                    b['hist']=[{k:v for k,v in e.items() if k!='gm'} for e in keep]
+                    if not b['hist']: b.pop('hist')
     return doc
 stamp=datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d%H%M')
 def page(title,body):

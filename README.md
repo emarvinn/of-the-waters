@@ -21,7 +21,7 @@ This repository uses two licenses.
 **Third-party material** keeps its own terms and is credited on the site's Credits page:
 
 - Mothership is a trademark of Tuesday Knight Games. This is an unofficial fan campaign, not affiliated with or endorsed by them; the site reproduces none of their text or art and does not use their logo.
-- World-type names follow the Non-Luminary World Classification Scheme of the Orion's Arm Universe Project (https://orionsarm.com), used as terminology with descriptions in our own words. Orion's Arm content belongs to the project and its contributors.
+- Terminology and ideas from the Orion's Arm Universe Project (https://orionsarm.com), used with permission: the NoLWoCS and EWoCS world classifications, and alien biochemistry, ecology and exotic-life concepts in the planetary profiles. One catch-all credit on the Credits page covers all of it. Never copy their text beyond a short phrase or a technical term; write everything in our own words. Orion's Arm content belongs to the project and its contributors.
 - Star data from the HYG database (Hipparcos, Yale, Gliese, Gaia); known exoplanets from the Open Exoplanet Catalogue and NASA Exoplanet Archive; three.js (MIT); fonts under the SIL Open Font License.
 
 Never add module or rulebook text, maps or art from Tuesday Knight Games or other publishers here: write episode recaps in your own words.
